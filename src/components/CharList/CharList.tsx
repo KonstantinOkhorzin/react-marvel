@@ -15,6 +15,8 @@ const CharList: FC<Props> = ({ onSetSelectedCharId, selectedCharId }) => {
   const [charList, setCharList] = useState<ICharacter[]>([]);
   const [status, setStatus] = useState<Status>(Status.IDLE);
   const [error, setError] = useState<string>('');
+  const [page, setPage] = useState<number>(1);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const marvelService = useMemo(() => new MarvelService(), []);
 
   useEffect(() => {
@@ -31,6 +33,19 @@ const CharList: FC<Props> = ({ onSetSelectedCharId, selectedCharId }) => {
       });
   }, [marvelService]);
 
+  useEffect(() => {
+    if (page === 1) return;
+
+    setIsLoadingMore(true);
+    marvelService
+      .getAllCharacters(page)
+      .then(result => setCharList(prevCharList => [...prevCharList, ...result]))
+      .catch(setError)
+      .finally(() => setIsLoadingMore(false));
+  }, [marvelService, page]);
+
+  const loadMore = () => setPage(prePage => prePage + 1);
+
   switch (status) {
     case Status.PENDING:
       return <Spinner />;
@@ -41,6 +56,8 @@ const CharList: FC<Props> = ({ onSetSelectedCharId, selectedCharId }) => {
           charList={charList}
           onSetSelectedCharId={onSetSelectedCharId}
           selectedCharId={selectedCharId}
+          onLoadMore={loadMore}
+          isLoadingMore={isLoadingMore}
         />
       );
 

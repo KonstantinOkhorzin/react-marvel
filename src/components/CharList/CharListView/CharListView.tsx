@@ -8,9 +8,17 @@ interface Props {
   charList: ICharacter[];
   onSetSelectedCharId: (id: number) => void;
   selectedCharId: number | null;
+  onLoadMore: () => void;
+  isLoadingMore: boolean;
 }
 
-const CharListView: FC<Props> = ({ charList, onSetSelectedCharId, selectedCharId }) => {
+const CharListView: FC<Props> = ({
+  charList,
+  onSetSelectedCharId,
+  selectedCharId,
+  onLoadMore,
+  isLoadingMore,
+}) => {
   return (
     <Container>
       <List>
@@ -21,8 +29,13 @@ const CharListView: FC<Props> = ({ charList, onSetSelectedCharId, selectedCharId
           </Item>
         ))}
       </List>
-      <Button variant='contained' sx={{ width: '170px' }}>
-        load more
+      <Button
+        onClick={onLoadMore}
+        disabled={isLoadingMore}
+        variant='contained'
+        sx={{ width: '170px' }}
+      >
+        {isLoadingMore ? 'loading...' : 'load more'}
       </Button>
     </Container>
   );
