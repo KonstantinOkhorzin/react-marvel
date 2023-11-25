@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Button } from '@mui/material';
 
-import { Container, List, Item, Name } from './CharListView.styled';
+import { Container, List, Item, Poster, Name } from './CharListView.styled';
 import { ICharacter } from '../../../types';
 
 interface Props {
@@ -24,7 +24,13 @@ const CharListView: FC<Props> = ({
       <List>
         {charList.map(({ id, name, thumbnail }) => (
           <Item key={id} onClick={() => onSetSelectedCharId(id)} selected={selectedCharId === id}>
-            <img src={thumbnail} alt='' />
+            <Poster
+              src={thumbnail}
+              alt=''
+              isDefaultImage={
+                thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
+              }
+            />
             <Name>{name}</Name>
           </Item>
         ))}

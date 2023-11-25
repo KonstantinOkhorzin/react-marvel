@@ -6,10 +6,15 @@ export const Wrapper = styled.div`
   grid-template-columns: 180px 1fr;
   gap: 30px;
   align-items: start;
-  img {
-    height: 180px;
-    object-fit: contain;
-  }
+`;
+
+interface PosterProps {
+  isDefaultImage: boolean;
+}
+
+export const Poster = styled.img<PosterProps>`
+  height: 180px;
+  object-fit: ${({ isDefaultImage }) => (isDefaultImage ? 'unset' : 'cover')};
 `;
 
 export const Info = styled.div`

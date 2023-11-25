@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Typography, Button } from '@mui/material';
 
-import { Wrapper, Info, Description, ButtonGroup } from './RandomCharView.styled';
+import { Wrapper, Poster, Info, Description, ButtonGroup } from './RandomCharView.styled';
 import { ICharacter } from '../../../types';
 
 interface Props {
@@ -11,7 +11,13 @@ interface Props {
 const RandomCharView: FC<Props> = ({ char: { name, description, thumbnail, homepage, wiki } }) => {
   return (
     <Wrapper>
-      <img src={thumbnail} alt='' />
+      <Poster
+        isDefaultImage={
+          thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
+        }
+        src={thumbnail}
+        alt=''
+      />
       <Info>
         <Typography variant='h3' component='h2' sx={{ textTransform: 'uppercase' }}>
           {name}

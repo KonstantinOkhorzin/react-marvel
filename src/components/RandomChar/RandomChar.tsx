@@ -10,7 +10,7 @@ import MarvelService from '../../services/marvel';
 
 const MIN_ID = 1011000;
 const MAX_ID = 1011400;
-const INTERVAL_TIME = 10000;
+const INTERVAL_TIME = 60000;
 
 const RandomChar = () => {
   const [char, setChar] = useState<ICharacter | null>(null);

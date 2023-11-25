@@ -27,10 +27,16 @@ export const Item = styled.li<ItemProps>`
   cursor: pointer;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateY(${({ selected }) => (selected ? '-8px' : '0px')});
-  img {
-    height: 200px;
-    object-fit: cover;
-  }
+`;
+
+interface PosterProps {
+  isDefaultImage: boolean;
+}
+
+export const Poster = styled.img<PosterProps>`
+  height: 200px;
+  margin: 0 auto;
+  object-fit: ${({ isDefaultImage }) => (isDefaultImage ? 'unset' : 'cover')};
 `;
 
 export const Name = styled.h3`

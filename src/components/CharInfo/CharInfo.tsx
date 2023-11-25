@@ -1,7 +1,14 @@
 import { FC } from 'react';
 import { Typography, Button, Box } from '@mui/material';
 
-import { Header, ButtonGroup, Description, ComicsList, ComicsItem } from './CharInfo.styled';
+import {
+  Header,
+  Poster,
+  ButtonGroup,
+  Description,
+  ComicsList,
+  ComicsItem,
+} from './CharInfo.styled';
 import { ICharacter } from '../../types';
 
 interface Props {
@@ -14,7 +21,13 @@ const CharInfo: FC<Props> = ({
   return (
     <>
       <Header>
-        <img src={thumbnail} alt={name} />
+        <Poster
+          isDefaultImage={
+            thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
+          }
+          src={thumbnail}
+          alt={name}
+        />
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <Typography variant='h3' component='h2' sx={{ textTransform: 'uppercase' }}>
             {name}
@@ -37,7 +50,7 @@ const CharInfo: FC<Props> = ({
           </Typography>
           <ComicsList>
             {comics
-              .filter((_, index) => index < 9)
+              .filter((_, index) => index < 10)
               .map(({ name }, index) => (
                 <ComicsItem key={index}>{name}</ComicsItem>
               ))}

@@ -4,10 +4,16 @@ export const Header = styled.div`
   display: grid;
   grid-template-columns: 150px 1fr;
   column-gap: 25px;
-  img {
-    height: 150px;
-    object-fit: cover;
-  }
+`;
+
+interface PosterProps {
+  isDefaultImage: boolean;
+}
+
+export const Poster = styled.img<PosterProps>`
+  height: 150px;
+  margin: 0 auto;
+  object-fit: ${({ isDefaultImage }) => (isDefaultImage ? 'unset' : 'cover')};
 `;
 
 export const ButtonGroup = styled.div`
@@ -19,8 +25,8 @@ export const ButtonGroup = styled.div`
 
 export const Description = styled.p`
   margin-top: 15px;
-  font-size: 14px;
-  line-height: 1.3;
+  font-size: ${({ theme }) => theme.fontSizes.extraSmall};
+  line-height: ${({ theme }) => theme.lineHeights.body};
 `;
 
 export const ComicsList = styled.ul`
@@ -32,8 +38,8 @@ export const ComicsList = styled.ul`
 
 export const ComicsItem = styled.li`
   width: 100%;
-  padding: 0px 10px;
-  font-size: 14px;
-  line-height: 1.2;
+  padding: 4px 10px 3px;
+  font-size: ${({theme}) => theme.fontSizes.extraSmall};
+  line-height: ${({theme}) => theme.lineHeights.body};
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
