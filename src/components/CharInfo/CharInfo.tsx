@@ -33,10 +33,10 @@ const CharInfo: FC<Props> = ({
             {name}
           </Typography>
           <ButtonGroup>
-            <Button href={homepage} variant='contained'>
+            <Button href={homepage} target='_blank' variant='contained'>
               Homepage
             </Button>
-            <Button href={wiki} variant='contained' color='secondary'>
+            <Button href={wiki} target='_blank' variant='contained' color='secondary'>
               Wiki
             </Button>
           </ButtonGroup>
