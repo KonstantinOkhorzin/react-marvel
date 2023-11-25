@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, FC } from 'react';
 import { Typography } from '@mui/material';
 
 import { Status, ICharacter } from '../../types';
@@ -6,7 +6,12 @@ import CharListView from './CharListView';
 import MarvelService from '../../services/marvel';
 import Spinner from '../Spinner';
 
-const CharList = () => {
+interface Props {
+  onSetSelectedCharId: (id: number) => void;
+  selectedCharId: number | null;
+}
+
+const CharList: FC<Props> = ({ onSetSelectedCharId, selectedCharId }) => {
   const [charList, setCharList] = useState<ICharacter[]>([]);
   const [status, setStatus] = useState<Status>(Status.IDLE);
   const [error, setError] = useState<string>('');
@@ -31,7 +36,13 @@ const CharList = () => {
       return <Spinner />;
 
     case Status.RESOLVED:
-      return <CharListView charList={charList} />;
+      return (
+        <CharListView
+          charList={charList}
+          onSetSelectedCharId={onSetSelectedCharId}
+          selectedCharId={selectedCharId}
+        />
+      );
 
     case Status.REJECTED:
       return (

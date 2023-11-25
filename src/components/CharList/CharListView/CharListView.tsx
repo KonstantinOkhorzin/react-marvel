@@ -6,14 +6,16 @@ import { ICharacter } from '../../../types';
 
 interface Props {
   charList: ICharacter[];
+  onSetSelectedCharId: (id: number) => void;
+  selectedCharId: number | null;
 }
 
-const CharListView: FC<Props> = ({ charList }) => {
+const CharListView: FC<Props> = ({ charList, onSetSelectedCharId, selectedCharId }) => {
   return (
     <Container>
       <List>
         {charList.map(({ id, name, thumbnail }) => (
-          <Item key={id}>
+          <Item key={id} onClick={() => onSetSelectedCharId(id)} selected={selectedCharId === id}>
             <img src={thumbnail} alt='' />
             <Name>{name}</Name>
           </Item>

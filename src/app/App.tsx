@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from '@emotion/styled';
 
 import AppHeader from '../components/AppHeader';
@@ -26,13 +27,15 @@ const Decoration = styled.img`
 `;
 
 function App() {
+  const [selectedCharId, setSelectedCharId] = useState<number | null>(null);
+
   return (
     <AppWrapper>
       <AppHeader />
       <InnerMainWrapper>
         <RandomChar />
-        <CharList />
-        <SideBar />
+        <CharList onSetSelectedCharId={setSelectedCharId} selectedCharId={selectedCharId} />
+        <SideBar selectedCharId={selectedCharId} />
         <Decoration src={decoration} alt='vision' />
       </InnerMainWrapper>
     </AppWrapper>

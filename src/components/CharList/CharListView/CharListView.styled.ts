@@ -14,13 +14,19 @@ export const List = styled.ul`
   row-gap: 30px;
 `;
 
-export const Item = styled.li`
+interface ItemProps {
+  selected: boolean;
+}
+
+export const Item = styled.li<ItemProps>`
   width: 200px;
   height: 318px;
   background-color: ${({ theme }) => theme.colors.dark};
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: ${({ selected }) =>
+    selected ? '0 5px 20px #9F0013' : '5px 5px 10px rgba(0, 0, 0, 0.25)'};
   cursor: pointer;
-  transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(${({ selected }) => (selected ? '-8px' : '0px')});
   img {
     height: 200px;
     object-fit: cover;
