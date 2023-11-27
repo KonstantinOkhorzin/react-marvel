@@ -12,12 +12,12 @@ const MIN_ID = 1011000;
 const MAX_ID = 1011400;
 const INTERVAL_TIME = 60000;
 
+const generateRandomId = () => Math.round(Math.random() * (MAX_ID - MIN_ID) + MIN_ID);
+
 const RandomChar = () => {
   const [char, setChar] = useState<ICharacter | null>(null);
   const [status, setStatus] = useState<Status>(Status.IDLE);
-  const [randomId, setRandomId] = useState<number>(() =>
-    Math.round(Math.random() * (MAX_ID - MIN_ID) + MIN_ID)
-  );
+  const [randomId, setRandomId] = useState<number>(generateRandomId);
   const marvelService = useMemo(() => new MarvelService(), []);
 
   useEffect(() => {
@@ -39,11 +39,6 @@ const RandomChar = () => {
     };
   }, [marvelService, randomId]);
 
-  const generateRandomId = () => {
-    const randomId = Math.round(Math.random() * (MAX_ID - MIN_ID) + MIN_ID);
-    setRandomId(randomId);
-  };
-
   return (
     <Wrapper>
       <DynamicBlock>
@@ -60,7 +55,7 @@ const RandomChar = () => {
         <Typography variant='h2' component='p' mb='13px'>
           Or choose another one
         </Typography>
-        <Button onClick={generateRandomId} variant='contained'>
+        <Button onClick={() => setRandomId(generateRandomId)} variant='contained'>
           try it
         </Button>
       </StaticBlock>
