@@ -1,9 +1,8 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, CircularProgress } from '@mui/material';
 
 import { Wrapper, DynamicBlock, StaticBlock } from './RandomChar.styled';
 import RandomCharView from './RandomCharView';
-import Spinner from '../Spinner';
 import ErrorView from './ErrorView';
 import { ICharacter, Status } from '../../types';
 import MarvelService from '../../services/marvel';
@@ -42,7 +41,7 @@ const RandomChar = () => {
   return (
     <Wrapper>
       <DynamicBlock>
-        {status === Status.PENDING && <Spinner />}
+        {status === Status.PENDING && <CircularProgress />}
         {char && status === Status.RESOLVED && <RandomCharView char={char} />}
         {status === Status.REJECTED && <ErrorView />}
       </DynamicBlock>

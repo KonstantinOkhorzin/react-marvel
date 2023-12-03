@@ -12,6 +12,9 @@ export const Wrapper = styled.div`
 
 export const DynamicBlock = styled.div`
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const StaticBlock = styled.div`

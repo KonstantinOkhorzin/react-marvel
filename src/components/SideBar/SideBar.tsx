@@ -1,10 +1,9 @@
 import { FC, useEffect, useMemo, useState } from 'react';
-import { Typography } from '@mui/material';
+import { Typography, CircularProgress } from '@mui/material';
 
 import CharInfo from '../CharInfo';
 import SearchForm from '../SearchForm';
 import Skeleton from '../Skeleton';
-import Spinner from '../Spinner';
 import { Wrapper, BlockWrapper } from './SideBar.styled';
 
 import MarvelService from '../../services/marvel';
@@ -40,7 +39,9 @@ const SideBar: FC<Props> = ({ selectedCharId }) => {
     <Wrapper>
       <BlockWrapper>
         {status === Status.IDLE && <Skeleton />}
-        {status === Status.PENDING && <Spinner />}
+        {status === Status.PENDING && (
+          <CircularProgress sx={{ margin: '0 auto', display: 'block' }} />
+        )}
         {status === Status.RESOLVED && selectedChar && <CharInfo char={selectedChar} />}
         {status === Status.REJECTED && (
           <Typography variant='h3' component='p' color='error' align='center'>

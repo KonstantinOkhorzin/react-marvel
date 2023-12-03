@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const Wrapper = styled.div`
   padding: 35px 35px 35px 40px;
   display: grid;
-  grid-template-columns: 180px 1fr;
+  grid-template-columns: 180px 265px;
   gap: 30px;
   align-items: start;
 `;

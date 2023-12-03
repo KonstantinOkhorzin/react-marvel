@@ -1,10 +1,9 @@
 import { useState, useEffect, useMemo, FC } from 'react';
-import { Typography } from '@mui/material';
+import { Typography, CircularProgress } from '@mui/material';
 
 import { Status, ICharacter } from '../../types';
 import CharListView from './CharListView';
 import MarvelService from '../../services/marvel';
-import Spinner from '../Spinner';
 
 interface Props {
   onSetSelectedCharId: (id: number) => void;
@@ -48,7 +47,7 @@ const CharList: FC<Props> = ({ onSetSelectedCharId, selectedCharId }) => {
 
   switch (status) {
     case Status.PENDING:
-      return <Spinner />;
+      return <CircularProgress sx={{margin: '0 auto'}}/>;
 
     case Status.RESOLVED:
       return (
