@@ -16,14 +16,16 @@ const CharList: FC<Props> = ({ onSetSelectedCharId, selectedCharId }) => {
   const [error, setError] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [canLoadMore, setCanLoadMore] = useState<boolean>(false);
   const marvelService = useMemo(() => new MarvelService(), []);
 
   useEffect(() => {
     setStatus(Status.PENDING);
     marvelService
       .getAllCharacters()
-      .then(result => {
-        setCharList(result);
+      .then(({ characters, canLoadMore }) => {
+        setCharList(characters);
+        setCanLoadMore(canLoadMore);
         setStatus(Status.RESOLVED);
       })
       .catch(error => {
@@ -38,7 +40,10 @@ const CharList: FC<Props> = ({ onSetSelectedCharId, selectedCharId }) => {
     setIsLoadingMore(true);
     marvelService
       .getAllCharacters(page)
-      .then(result => setCharList(prevCharList => [...prevCharList, ...result]))
+      .then(({ characters, canLoadMore }) => {
+        setCharList(prevCharList => [...prevCharList, ...characters]);
+        setCanLoadMore(canLoadMore);
+      })
       .catch(setError)
       .finally(() => setIsLoadingMore(false));
   }, [marvelService, page]);
@@ -47,7 +52,7 @@ const CharList: FC<Props> = ({ onSetSelectedCharId, selectedCharId }) => {
 
   switch (status) {
     case Status.PENDING:
-      return <CircularProgress sx={{margin: '0 auto'}}/>;
+      return <CircularProgress sx={{ margin: '0 auto' }} />;
 
     case Status.RESOLVED:
       return (
@@ -57,6 +62,7 @@ const CharList: FC<Props> = ({ onSetSelectedCharId, selectedCharId }) => {
           selectedCharId={selectedCharId}
           onLoadMore={loadMore}
           isLoadingMore={isLoadingMore}
+          canLoadMore={canLoadMore}
         />
       );
 

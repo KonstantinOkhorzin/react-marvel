@@ -8,6 +8,11 @@ export interface ICharacter {
   comics: Comic[];
 }
 
+export interface CharactersDataResponse {
+  characters: ICharacter[];
+  canLoadMore: boolean;
+}
+
 interface Comic {
   resourceURI: string;
   name: string;

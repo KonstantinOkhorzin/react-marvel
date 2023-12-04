@@ -1,10 +1,10 @@
-import { Result } from './types';
-import { ICharacter } from '../../types';
+import { Result, Data } from './types';
+import { ICharacter, CharactersDataResponse } from '../../types';
 
 export default class MarvelService {
   private apiKey: string = import.meta.env.VITE_MARVEL_KEY;
   private baseUrl: string = 'https://gateway.marvel.com:443/v1/public/';
-  private defaultOffset: number = 201;
+  private defaultOffset: number = 210;
   private limit: number = 9;
 
   private getResource = async (url: string) => {
@@ -31,15 +31,24 @@ export default class MarvelService {
     };
   };
 
-  getAllCharacters = async (page: number = 1): Promise<ICharacter[]> => {
-    const { defaultOffset, limit, apiKey, baseUrl, getResource } = this;
-    const offset: number = defaultOffset + limit * page;
+  private canLoadMore = ({ total, offset, count }: Data): boolean => {
+    return total - (offset + count) > 0;
+  };
+
+  getAllCharacters = async (page: number = 1): Promise<CharactersDataResponse> => {
+    const { defaultOffset, limit, apiKey, baseUrl, getResource, canLoadMore } = this;
+    const offset: number = defaultOffset + limit * page - limit;
 
     const response = await getResource(
       `${baseUrl}characters?limit=${limit}&offset=${offset}&apikey=${apiKey}`
     );
 
-    return response.data.results.map(this.transformCharacter);
+    const { data } = response;
+
+    return {
+      characters: data.results.map(this.transformCharacter),
+      canLoadMore: canLoadMore(data),
+    };
   };
 
   getCharacter = async (id: number): Promise<ICharacter> => {

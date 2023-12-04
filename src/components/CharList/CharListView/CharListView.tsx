@@ -10,6 +10,7 @@ interface Props {
   selectedCharId: number | null;
   onLoadMore: () => void;
   isLoadingMore: boolean;
+  canLoadMore: boolean;
 }
 
 const CharListView: FC<Props> = ({
@@ -18,6 +19,7 @@ const CharListView: FC<Props> = ({
   selectedCharId,
   onLoadMore,
   isLoadingMore,
+  canLoadMore,
 }) => {
   return (
     <Container>
@@ -35,14 +37,16 @@ const CharListView: FC<Props> = ({
           </Item>
         ))}
       </List>
-      <Button
-        onClick={onLoadMore}
-        disabled={isLoadingMore}
-        variant='contained'
-        sx={{ width: '170px' }}
-      >
-        {isLoadingMore ? 'loading...' : 'load more'}
-      </Button>
+      {canLoadMore && (
+        <Button
+          onClick={onLoadMore}
+          disabled={isLoadingMore}
+          variant='contained'
+          sx={{ width: '170px' }}
+        >
+          {isLoadingMore ? 'loading...' : 'load more'}
+        </Button>
+      )}
     </Container>
   );
 };
