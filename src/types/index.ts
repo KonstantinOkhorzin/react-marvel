@@ -8,6 +8,16 @@ export interface ICharacter {
   comics: Comic[];
 }
 
+export interface IComic {
+  id: number;
+  title: string;
+  description: string;
+  pageCount: string;
+  thumbnail: string;
+  language: string;
+  price: string;
+}
+
 export interface CharactersDataResponse {
   characters: ICharacter[];
   canLoadMore: boolean;
