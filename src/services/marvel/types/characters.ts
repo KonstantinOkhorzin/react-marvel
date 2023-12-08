@@ -1,12 +1,12 @@
-export interface Data {
+export interface ServerCharactersData {
   offset: number;
   limit: number;
   total: number;
   count: number;
-  results: Result[];
+  results: CharacterResponse[];
 }
 
-export interface Result {
+export interface CharacterResponse {
   id: number;
   name: string;
   description: string;
