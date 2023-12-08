@@ -1,18 +1,28 @@
-import { Container, Item, List, Poster, Price, Title } from './ComicListView.styled';
+import { FC } from 'react';
 
-const ComicListView = () => {
+import { List, Item, Poster, Price, Title } from './ComicListView.styled';
+import { IComic } from '../../../../../../types';
+import { Link } from 'react-router-dom';
+
+interface Props {
+  comicList: IComic[];
+}
+
+const ComicListView: FC<Props> = ({ comicList }) => {
   return (
-    <Container>
+    <section>
       <List>
-        <Item>
-          <a href=''>
-            <Poster src='' alt='' />
-            <Title></Title>
-            <Price></Price>
-          </a>
-        </Item>
+        {comicList.map(({ id, thumbnail, title, price }) => (
+          <Item key={id}>
+            <Link to={`/comics/${id}`}>
+              <Poster src={thumbnail} alt='' />
+              <Title>{title}</Title>
+              <Price>{price}</Price>
+            </Link>
+          </Item>
+        ))}
       </List>
-    </Container>
+    </section>
   );
 };
 

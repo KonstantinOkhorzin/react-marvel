@@ -1,12 +1,5 @@
 import styled from '@emotion/styled';
 
-export const Container = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 45px;
-`;
-
 export const List = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fill, 225px);
@@ -22,6 +15,7 @@ export const Item = styled.li`
 `;
 
 export const Poster = styled.img`
+  height: 346px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
 `;
 
