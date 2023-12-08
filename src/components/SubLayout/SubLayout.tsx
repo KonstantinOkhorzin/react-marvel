@@ -1,7 +1,7 @@
 import { FC, ReactElement } from 'react';
 import { Box } from '@mui/material';
 
-import AppBanner from '../AppBanner';
+import AppBanner from './components/AppBanner';
 
 interface ISubLayoutProps {
   children: ReactElement;
