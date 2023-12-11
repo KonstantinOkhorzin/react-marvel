@@ -40,7 +40,7 @@ export default class MarvelService {
       title: comics.title,
       description: comics.description || 'There is no description',
       pageCount: comics.pageCount
-        ? `${comics.pageCount} p.`
+        ? `${comics.pageCount} pages`
         : 'No information about the number of pages',
       thumbnail: comics.thumbnail.path + '.' + comics.thumbnail.extension,
       language: comics.textObjects[0]?.language || 'en-us',
@@ -90,7 +90,7 @@ export default class MarvelService {
     return response.data.results.map(this.transformComics);
   };
 
-  getComic = async (id: number): Promise<IComic> => {
+  getComic = async (id: string): Promise<IComic> => {
     const response = await this.getResource(`${this.baseUrl}comics/${id}?apikey=${this.apiKey}`);
     return this.transformComics(response.data.results[0]);
   };

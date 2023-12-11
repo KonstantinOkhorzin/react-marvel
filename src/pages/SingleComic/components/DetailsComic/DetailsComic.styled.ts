@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.section`
   display: grid;
@@ -21,7 +22,7 @@ export const Price = styled.p`
   color: ${({ theme }) => theme.colors.main};
 `;
 
-export const LinkToBack = styled.a`
+export const LinkToBack = styled(Link)`
   justify-self: end;
   font-weight: ${({ theme }) => theme.fontWeights.heading};
   font-size: ${({ theme }) => theme.fontSizes.small};
