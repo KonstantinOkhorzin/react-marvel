@@ -13,9 +13,9 @@ function App() {
     <Routes>
       <Route path='/' element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path='/comics' element={<Comics />} />
-        <Route path='/comics/:comicId' element={<SingleComic />} />
-        <Route path='/:charId' element={<SingleChar />} />
+        <Route path='comics' element={<Comics />} />
+        <Route path='comics/:comicId' element={<SingleComic />} />
+        <Route path='characters/:charId' element={<SingleChar />} />
       </Route>
     </Routes>
   );
