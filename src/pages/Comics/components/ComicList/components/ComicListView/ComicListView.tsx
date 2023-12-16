@@ -12,8 +12,8 @@ const ComicListView: FC<Props> = ({ comicList }) => {
   return (
     <section>
       <List>
-        {comicList.map(({ id, thumbnail, title, price }) => (
-          <Item key={id}>
+        {comicList.map(({ id, thumbnail, title, price }, index) => (
+          <Item key={index}>
             <Link to={`/comics/${id}`}>
               <Poster src={thumbnail} alt='' />
               <Title>{title}</Title>

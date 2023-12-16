@@ -1,13 +1,13 @@
 import { ServerCharactersData, CharacterResponse } from './types/characters';
-import { ComicResponse } from './types/comics';
-import { ICharacter, CharactersDataResponse, IComic } from '../../types';
+import { ServerComicsData, ComicResponse } from './types/comics';
+import { ICharacter, CharactersDataResponse, IComic, ComicsDataResponse } from '../../types';
 
 export default class MarvelService {
   private apiKey: string = import.meta.env.VITE_MARVEL_KEY;
   private baseUrl: string = 'https://gateway.marvel.com:443/v1/public/';
   private defaultCharactersOffset: number = 210;
   private charactersLimit: number = 9;
-  private defaultComicsOffset: number = 0;
+  private defaultComicsOffset: number = 100;
   private comicsLimit: number = 8;
 
   private getResource = async (url: string) => {
@@ -52,6 +52,10 @@ export default class MarvelService {
     return total - (offset + count) > 0;
   };
 
+  private canLoadMoreComics = ({ total, offset, count }: ServerComicsData): boolean => {
+    return total - (offset + count) > 0;
+  };
+
   getAllCharacters = async (page: number = 1): Promise<CharactersDataResponse> => {
     const {
       defaultCharactersOffset,
@@ -83,11 +87,20 @@ export default class MarvelService {
     return this.transformCharacter(response.data.results[0]);
   };
 
-  getAllComics = async (): Promise<IComic[]> => {
+  getAllComics = async (page: number = 1): Promise<ComicsDataResponse> => {
+    const { defaultComicsOffset, comicsLimit, apiKey, baseUrl } = this;
+    const offset: number = defaultComicsOffset + comicsLimit * page - comicsLimit;
+
     const response = await this.getResource(
-      `${this.baseUrl}comics?limit=${this.comicsLimit}&offset=${this.defaultComicsOffset}&apikey=${this.apiKey}`
+      `${baseUrl}comics?limit=${comicsLimit}&offset=${offset}&apikey=${apiKey}`
     );
-    return response.data.results.map(this.transformComics);
+
+    const { data } = response;
+
+    return {
+      comics: data.results.map(this.transformComics),
+      canLoadMore: this.canLoadMoreComics(data),
+    };
   };
 
   getComic = async (id: string): Promise<IComic> => {

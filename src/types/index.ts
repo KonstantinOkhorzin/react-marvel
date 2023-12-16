@@ -23,6 +23,11 @@ export interface CharactersDataResponse {
   canLoadMore: boolean;
 }
 
+export interface ComicsDataResponse {
+  comics: IComic[];
+  canLoadMore: boolean;
+}
+
 interface Comic {
   resourceURI: string;
   name: string;
