@@ -46,6 +46,15 @@ export const muiTheme = createTheme({
         },
       },
     },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          color: theme.colors.main,
+          transition: theme.animation.transform,
+          '&:hover': { transform: 'translateY(-5px)' },
+        },
+      },
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         input: {

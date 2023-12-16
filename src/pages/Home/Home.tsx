@@ -5,6 +5,7 @@ import RandomChar from './components/RandomChar';
 import SideBar from './components/SideBar';
 import decoration from '../../assets/img/vision.png';
 import { InnerMainWrapper, Decoration } from './Home.styled';
+import ScrollToTopButton from '../../components/ScrollToTopButton';
 
 const Home = () => {
     const [selectedCharId, setSelectedCharId] = useState<number | null>(null);
@@ -14,6 +15,7 @@ const Home = () => {
       <CharList onSetSelectedCharId={setSelectedCharId} selectedCharId={selectedCharId} />
       <SideBar selectedCharId={selectedCharId} />
       <Decoration src={decoration} alt='vision' />
+      <ScrollToTopButton/>
     </InnerMainWrapper>
   );
 };
