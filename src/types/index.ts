@@ -29,7 +29,7 @@ export interface ComicsDataResponse {
 }
 
 interface Comic {
-  resourceURI: string;
+  id: string;
   name: string;
 }
 

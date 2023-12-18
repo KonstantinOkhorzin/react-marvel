@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Box, Typography } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 import { Container, Description, Price, LinkToBack } from './DetailsComic.styled';
 import { IComic } from '../../../../types';
@@ -11,6 +12,8 @@ interface Props {
 const DetailsComic: FC<Props> = ({
   comic: { thumbnail, title, description, pageCount, language, price },
 }) => {
+  const location = useLocation();
+
   return (
     <Container>
       <img src={thumbnail} alt='' />
@@ -23,7 +26,7 @@ const DetailsComic: FC<Props> = ({
         <Description>Language: {language}</Description>
         <Price>{price}</Price>
       </Box>
-      <LinkToBack to='/comics'>Back to all</LinkToBack>
+      <LinkToBack to={location.state?.from ?? '/comics'}>Back to all</LinkToBack>
     </Container>
   );
 };

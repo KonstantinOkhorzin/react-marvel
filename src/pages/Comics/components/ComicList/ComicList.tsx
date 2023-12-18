@@ -52,7 +52,7 @@ const ComicsList = () => {
           next={() => setPage(page => page + 1)}
           hasMore={canLoadMore}
           loader={<CircularProgress sx={{ margin: '0 auto', display: 'block' }} />}
-          style={{ overflow: 'hidden' }}
+          style={{ overflow: 'visible' }}
         >
           <ComicListView comicList={comicList} />
         </InfiniteScroll>

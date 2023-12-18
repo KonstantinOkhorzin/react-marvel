@@ -1,13 +1,15 @@
 import { FC } from 'react';
 import { Typography, Button, Box } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 import {
   Header,
   Poster,
   ButtonGroup,
   Description,
-  ComicsList,
-  ComicsItem,
+  ComicList,
+  Comic,
+  ComicLink,
 } from './CharInfo.styled';
 import { ICharacter } from '../../../../../../types';
 
@@ -18,6 +20,8 @@ interface Props {
 const CharInfo: FC<Props> = ({
   char: { name, thumbnail, description, homepage, wiki, comics },
 }) => {
+  const location = useLocation();
+
   return (
     <>
       <Header>
@@ -48,13 +52,17 @@ const CharInfo: FC<Props> = ({
           <Typography variant='h4' component='h3' mt='10px'>
             Comics:
           </Typography>
-          <ComicsList>
+          <ComicList>
             {comics
               .filter((_, index) => index < 10)
-              .map(({ name }, index) => (
-                <ComicsItem key={index}>{name}</ComicsItem>
+              .map(({ name, id }) => (
+                <Comic key={id}>
+                  <ComicLink to={`/comics/${id}`} state={{ from: location }}>
+                    {name}
+                  </ComicLink>
+                </Comic>
               ))}
-          </ComicsList>
+          </ComicList>
         </>
       ) : null}
     </>
