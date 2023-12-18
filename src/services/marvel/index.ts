@@ -51,23 +51,17 @@ export default class MarvelService {
     };
   };
 
-  private canLoadMoreCharacters = ({ total, offset, count }: ServerCharactersData): boolean => {
-    return total - (offset + count) > 0;
-  };
-
-  private canLoadMoreComics = ({ total, offset, count }: ServerComicsData): boolean => {
+  private canLoadMore = ({
+    total,
+    offset,
+    count,
+  }: ServerComicsData | ServerCharactersData): boolean => {
     return total - (offset + count) > 0;
   };
 
   getAllCharacters = async (page: number = 1): Promise<DataResponse<ICharacter>> => {
-    const {
-      defaultCharactersOffset,
-      charactersLimit,
-      apiKey,
-      baseUrl,
-      getResource,
-      canLoadMoreCharacters,
-    } = this;
+    const { defaultCharactersOffset, charactersLimit, apiKey, baseUrl, getResource, canLoadMore } =
+      this;
     const offset: number = defaultCharactersOffset + charactersLimit * page - charactersLimit;
 
     const response = await getResource(
@@ -78,7 +72,7 @@ export default class MarvelService {
 
     return {
       items: data.results.map(this.transformCharacter),
-      canLoadMore: canLoadMoreCharacters(data),
+      canLoadMore: canLoadMore(data),
     };
   };
 
@@ -102,7 +96,7 @@ export default class MarvelService {
 
     return {
       items: data.results.map(this.transformComics),
-      canLoadMore: this.canLoadMoreComics(data),
+      canLoadMore: this.canLoadMore(data),
     };
   };
 
