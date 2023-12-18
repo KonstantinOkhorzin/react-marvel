@@ -1,6 +1,6 @@
 import { ServerCharactersData, CharacterResponse } from './types/characters';
 import { ServerComicsData, ComicResponse } from './types/comics';
-import { ICharacter, CharactersDataResponse, IComic, ComicsDataResponse } from '../../types';
+import { ICharacter, IComic, DataResponse } from '../../types';
 
 export default class MarvelService {
   private apiKey: string = import.meta.env.VITE_MARVEL_KEY;
@@ -59,7 +59,7 @@ export default class MarvelService {
     return total - (offset + count) > 0;
   };
 
-  getAllCharacters = async (page: number = 1): Promise<CharactersDataResponse> => {
+  getAllCharacters = async (page: number = 1): Promise<DataResponse<ICharacter>> => {
     const {
       defaultCharactersOffset,
       charactersLimit,
@@ -77,7 +77,7 @@ export default class MarvelService {
     const { data } = response;
 
     return {
-      characters: data.results.map(this.transformCharacter),
+      items: data.results.map(this.transformCharacter),
       canLoadMore: canLoadMoreCharacters(data),
     };
   };
@@ -90,7 +90,7 @@ export default class MarvelService {
     return this.transformCharacter(response.data.results[0]);
   };
 
-  getAllComics = async (page: number = 1): Promise<ComicsDataResponse> => {
+  getAllComics = async (page: number = 1): Promise<DataResponse<IComic>> => {
     const { defaultComicsOffset, comicsLimit, apiKey, baseUrl } = this;
     const offset: number = defaultComicsOffset + comicsLimit * page - comicsLimit;
 
@@ -101,7 +101,7 @@ export default class MarvelService {
     const { data } = response;
 
     return {
-      comics: data.results.map(this.transformComics),
+      items: data.results.map(this.transformComics),
       canLoadMore: this.canLoadMoreComics(data),
     };
   };

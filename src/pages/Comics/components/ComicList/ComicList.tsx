@@ -18,7 +18,7 @@ const ComicsList = () => {
     setStatus(Status.PENDING);
     marvelService
       .getAllComics()
-      .then(({ comics, canLoadMore }) => {
+      .then(({ items: comics, canLoadMore }) => {
         setComicList(comics);
         setCanLoadMore(canLoadMore);
         setStatus(Status.RESOLVED);
@@ -34,7 +34,7 @@ const ComicsList = () => {
 
     marvelService
       .getAllComics(page)
-      .then(({ comics, canLoadMore }) => {
+      .then(({ items: comics, canLoadMore }) => {
         setComicList(prevComicList => [...prevComicList, ...comics]);
         setCanLoadMore(canLoadMore);
       })

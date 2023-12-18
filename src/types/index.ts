@@ -18,13 +18,8 @@ export interface IComic {
   price: string;
 }
 
-export interface CharactersDataResponse {
-  characters: ICharacter[];
-  canLoadMore: boolean;
-}
-
-export interface ComicsDataResponse {
-  comics: IComic[];
+export interface DataResponse<T> {
+  items: T[];
   canLoadMore: boolean;
 }
 

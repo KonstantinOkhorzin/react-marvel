@@ -23,7 +23,7 @@ const CharList: FC<Props> = ({ onSetSelectedCharId, selectedCharId }) => {
     setStatus(Status.PENDING);
     marvelService
       .getAllCharacters()
-      .then(({ characters, canLoadMore }) => {
+      .then(({ items: characters, canLoadMore }) => {
         setCharList(characters);
         setCanLoadMore(canLoadMore);
         setStatus(Status.RESOLVED);
@@ -40,7 +40,7 @@ const CharList: FC<Props> = ({ onSetSelectedCharId, selectedCharId }) => {
     setIsLoadingMore(true);
     marvelService
       .getAllCharacters(page)
-      .then(({ characters, canLoadMore }) => {
+      .then(({ items: characters, canLoadMore }) => {
         setCharList(prevCharList => [...prevCharList, ...characters]);
         setCanLoadMore(canLoadMore);
       })
