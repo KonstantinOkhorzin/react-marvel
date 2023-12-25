@@ -2,10 +2,15 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
 export const Container = styled.section`
-  display: grid;
-  grid-template-columns: 293px 550px auto;
-  column-gap: 50px;
+  display: flex;
+  justify-content: space-between;
   align-items: start;
+`;
+
+export const Content = styled.div`
+  display: grid;
+  grid-template-columns: 293px 550px;
+  column-gap: 50px;
 `;
 
 export const Description = styled.p`
