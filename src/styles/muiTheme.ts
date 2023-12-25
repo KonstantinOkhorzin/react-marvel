@@ -12,6 +12,9 @@ export const muiTheme = createTheme({
   },
   typography: {
     fontFamily: 'Roboto Condensed, sans-serif',
+    h1: {
+      fontSize: '4rem'
+    },
     h2: {
       color: theme.colors.background,
       fontWeight: theme.fontWeights.heading,
