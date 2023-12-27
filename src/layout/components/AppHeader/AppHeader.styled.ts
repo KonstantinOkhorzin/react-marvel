@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { NavLink } from 'react-router-dom';
 
 export const HeaderWrapper = styled.header`
   display: flex;
@@ -16,20 +15,10 @@ export const Title = styled.h1`
   }
 `;
 
-export const LinkList = styled.ul`
+export const NavList = styled.nav`
   display: flex;
   gap: 8px;
   font-weight: ${({ theme }) => theme.fontWeights.heading};
   font-size: ${({ theme }) => theme.fontSizes.large};
   line-height: ${({ theme }) => theme.lineHeights.heading};
-`;
-
-export const LinkItem = styled(NavLink)`
-  transition: ${({ theme }) => theme.animation.color};
-  :hover {
-    color: ${({ theme }) => theme.colors.main};
-  }
-  &.active {
-    color: ${({ theme }) => theme.colors.main};
-  }
 `;

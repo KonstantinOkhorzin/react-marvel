@@ -1,26 +1,19 @@
-import { Link } from 'react-router-dom';
-
-import { HeaderWrapper, Title, LinkList, LinkItem } from './AppHeader.styled';
+import LinkToMain from './components/LinkToMain';
+import LinkItem from './components/LinkItem';
+import { HeaderWrapper, Title, NavList } from './AppHeader.styled';
 
 const AppHeader = () => {
   return (
     <HeaderWrapper>
       <Title>
-        <Link to='/'>
-          <span>Marvel</span> information portal
-        </Link>
+        <LinkToMain to='/'>
+          <span>Marvel&nbsp;</span> information portal
+        </LinkToMain>
       </Title>
-      <nav>
-        <LinkList>
-          <li>
-            <LinkItem to='/'>Characters</LinkItem>
-          </li>
-          /
-          <li>
-            <LinkItem to='/comics'>Comics</LinkItem>
-          </li>
-        </LinkList>
-      </nav>
+
+      <NavList>
+        <LinkItem to='/'>Characters</LinkItem>/<LinkItem to='/comics'>Comics</LinkItem>
+      </NavList>
     </HeaderWrapper>
   );
 };

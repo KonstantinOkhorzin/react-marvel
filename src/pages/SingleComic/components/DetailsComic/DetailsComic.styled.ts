@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
 
 export const Container = styled.section`
   display: flex;
@@ -25,15 +24,4 @@ export const Price = styled.p`
   font-size: ${({ theme }) => theme.fontSizes.large};
   line-height: ${({ theme }) => theme.lineHeights.heading};
   color: ${({ theme }) => theme.colors.main};
-`;
-
-export const LinkToBack = styled(Link)`
-  justify-self: end;
-  font-weight: ${({ theme }) => theme.fontWeights.heading};
-  font-size: ${({ theme }) => theme.fontSizes.small};
-  line-height: ${({ theme }) => theme.lineHeights.heading};
-  transition: ${({ theme }) => theme.animation.color};
-  &:hover {
-    color: ${({ theme }) => theme.colors.main};
-  }
 `;
