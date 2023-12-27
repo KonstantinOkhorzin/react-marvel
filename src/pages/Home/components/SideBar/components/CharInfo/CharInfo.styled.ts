@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
 
 export const Header = styled.div`
   display: grid;
@@ -30,25 +29,11 @@ export const Description = styled.p`
   line-height: ${({ theme }) => theme.lineHeights.body};
 `;
 
-export const ComicList = styled.ul`
+export const ComicList = styled.div`
   margin-top: 14px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-`;
-
-export const Comic = styled.li`
-  width: 100%;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  transition: ${({ theme }) => theme.animation.transform};
-  &:hover {
-    transform: translateY(-5px);
-  }
-`;
-
-export const ComicLink = styled(Link)`
-  display: block;
-  padding: 4px 10px 3px;
   font-size: ${({ theme }) => theme.fontSizes.extraSmall};
   line-height: ${({ theme }) => theme.lineHeights.body};
 `;

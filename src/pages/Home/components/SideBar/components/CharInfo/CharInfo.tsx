@@ -1,16 +1,8 @@
 import { FC } from 'react';
 import { Typography, Button, Box } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
-import {
-  Header,
-  Poster,
-  ButtonGroup,
-  Description,
-  ComicList,
-  Comic,
-  ComicLink,
-} from './CharInfo.styled';
+import { Header, Poster, ButtonGroup, Description, ComicList } from './CharInfo.styled';
 import { ICharacter } from '../../../../../../types';
 
 interface Props {
@@ -56,11 +48,30 @@ const CharInfo: FC<Props> = ({
             {comics
               .filter((_, index) => index < 10)
               .map(({ name, id }) => (
-                <Comic key={id}>
-                  <ComicLink to={`/comics/${id}`} state={{ from: location }}>
-                    {name}
-                  </ComicLink>
-                </Comic>
+                <Button
+                  component={Link}
+                  key={id}
+                  to={`/comics/${id}`}
+                  state={{ from: location }}
+                  sx={{
+                    width: '100%',
+                    boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+                    padding: ' 4px 10px 3px',
+                    fontSize: 'inherit',
+                    lineHeight: 'inherit',
+                    textTransform: 'none',
+                    color: 'inherit',
+                    justifyContent: 'start',
+                    '&: hover': {
+                      backgroundColor: 'transparent',
+                    },
+                    '.MuiTouchRipple-ripple': {
+                      transform: 'scale(1.2)',
+                    },
+                  }}
+                >
+                  {name}
+                </Button>
               ))}
           </ComicList>
         </>
