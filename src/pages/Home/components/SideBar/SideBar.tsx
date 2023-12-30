@@ -24,7 +24,7 @@ const SideBar: FC<Props> = ({ selectedCharId }) => {
 
     setStatus(Status.PENDING);
     marvelService
-      .getCharacter(selectedCharId)
+      .getCharacterById(selectedCharId)
       .then(char => {
         setSelectedChar(char);
         setStatus(Status.RESOLVED);

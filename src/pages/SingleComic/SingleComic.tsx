@@ -20,7 +20,7 @@ const SingleComic = () => {
 
     setStatus(Status.PENDING);
     marvelService
-      .getComic(comicId)
+      .getComicById(comicId)
       .then(comic => {
         setComic(comic);
         setStatus(Status.RESOLVED);

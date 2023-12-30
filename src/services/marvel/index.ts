@@ -76,7 +76,7 @@ export default class MarvelService {
     };
   };
 
-  getCharacter = async (id: number): Promise<ICharacter> => {
+  getCharacterById = async (id: string | number): Promise<ICharacter> => {
     const response = await this.getResource(
       `${this.baseUrl}characters/${id}?apikey=${this.apiKey}`
     );
@@ -100,8 +100,15 @@ export default class MarvelService {
     };
   };
 
-  getComic = async (id: string): Promise<IComic> => {
+  getComicById = async (id: string): Promise<IComic> => {
     const response = await this.getResource(`${this.baseUrl}comics/${id}?apikey=${this.apiKey}`);
     return this.transformComics(response.data.results[0]);
+  };
+
+  getCharacterByName = async (name: string): Promise<ICharacter[]> => {
+    const response = await this.getResource(
+      `${this.baseUrl}characters?name=${name}&apikey=${this.apiKey}`
+    );
+    return response.data.results.map(this.transformCharacter);
   };
 }

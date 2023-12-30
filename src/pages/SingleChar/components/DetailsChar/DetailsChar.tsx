@@ -1,15 +1,27 @@
+import { FC } from 'react';
 import { Typography } from '@mui/material';
 
-import { Wrapper, Description } from './DetailsChar.styled';
+import { Wrapper, Content, Description } from './DetailsChar.styled';
+import { ICharacter } from '../../../../types';
+import LinkToBack from '../../../../components/LinkToBack';
 
-const DetailsChar = () => {
+interface Props {
+  char: ICharacter;
+}
+
+const DetailsChar: FC<Props> = ({ char: { name, thumbnail, description } }) => {
   return (
     <Wrapper>
-      <img src='' alt='' />
-      <div>
-        <Typography variant='h4' component='h2'></Typography>
-        <Description></Description>
-      </div>
+      <Content>
+        <img src={thumbnail} alt='' />
+        <div>
+          <Typography variant='h4' component='h2'>
+            {name.toLocaleUpperCase()}
+          </Typography>
+          <Description>{description}</Description>
+        </div>
+      </Content>
+      <LinkToBack to='/'>Back to all</LinkToBack>
     </Wrapper>
   );
 };

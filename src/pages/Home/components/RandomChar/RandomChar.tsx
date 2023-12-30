@@ -22,7 +22,7 @@ const RandomChar = () => {
   useEffect(() => {
     setStatus(Status.PENDING);
     marvelService
-      .getCharacter(randomId)
+      .getCharacterById(randomId)
       .then(char => {
         setChar(char);
         setStatus(Status.RESOLVED);
