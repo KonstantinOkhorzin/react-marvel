@@ -1,25 +1,31 @@
-import { useState, useEffect, useMemo, FC } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Typography, CircularProgress } from '@mui/material';
 
-import { Status, ICharacter } from '../../../../types';
+import { Status } from '../../../../types';
 import CharListView from './components/CharListView';
 import MarvelService from '../../../../services/marvel';
+import { useGlobalContext } from '../../../../hooks';
 
-interface Props {
-  onSetSelectedCharId: (id: number) => void;
-  selectedCharId: number | null;
-}
-
-const CharList: FC<Props> = ({ onSetSelectedCharId, selectedCharId }) => {
-  const [charList, setCharList] = useState<ICharacter[]>([]);
+const CharList = () => {
   const [status, setStatus] = useState<Status>(Status.IDLE);
   const [error, setError] = useState<string>('');
-  const [page, setPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
-  const [canLoadMore, setCanLoadMore] = useState<boolean>(false);
   const marvelService = useMemo(() => new MarvelService(), []);
+  const {
+    charList,
+    setCharList,
+    charPage,
+    setCharPage,
+    canLoadMoreCharacters: canLoadMore,
+    setCanLoadMoreCharacters: setCanLoadMore,
+    selectedCharId,
+    setSelectedCharId,
+  } = useGlobalContext();
 
   useEffect(() => {
+    if (charList.length > 0) return;
+
     setStatus(Status.PENDING);
     marvelService
       .getAllCharacters()
@@ -32,39 +38,48 @@ const CharList: FC<Props> = ({ onSetSelectedCharId, selectedCharId }) => {
         setError(error);
         setStatus(Status.REJECTED);
       });
-  }, [marvelService]);
+  }, [charList.length, marvelService, setCanLoadMore, setCharList]);
 
   useEffect(() => {
-    if (page === 1) return;
+    if (charPage === 1 || currentPage !== charPage) return;
 
     setIsLoadingMore(true);
     marvelService
-      .getAllCharacters(page)
+      .getAllCharacters(charPage)
       .then(({ items: characters, canLoadMore }) => {
         setCharList(prevCharList => [...prevCharList, ...characters]);
         setCanLoadMore(canLoadMore);
       })
       .catch(setError)
       .finally(() => setIsLoadingMore(false));
-  }, [marvelService, page]);
+  }, [marvelService, charPage, setCharList, currentPage, setCanLoadMore]);
 
-  const loadMore = () => setPage(prePage => prePage + 1);
+  const loadMore = () => {
+    setCharPage(prevPage => {
+      setCurrentPage(prevPage + 1);
+      return prevPage + 1;
+    });
+  };
 
   switch (status) {
     case Status.PENDING:
       return <CircularProgress sx={{ margin: '0 auto' }} />;
 
     case Status.RESOLVED:
-      return (
-        <CharListView
-          charList={charList}
-          onSetSelectedCharId={onSetSelectedCharId}
-          selectedCharId={selectedCharId}
-          onLoadMore={loadMore}
-          isLoadingMore={isLoadingMore}
-          canLoadMore={canLoadMore}
-        />
-      );
+    case Status.IDLE:
+      if (charList.length > 0) {
+        return (
+          <CharListView
+            charList={charList}
+            onSetSelectedCharId={setSelectedCharId}
+            selectedCharId={selectedCharId}
+            onLoadMore={loadMore}
+            isLoadingMore={isLoadingMore}
+            canLoadMore={canLoadMore}
+          />
+        );
+      }
+      break;
 
     case Status.REJECTED:
       return (

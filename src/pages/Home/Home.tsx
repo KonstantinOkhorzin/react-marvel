@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import CharList from './components/CharList';
 import RandomChar from './components/RandomChar';
 import SideBar from './components/SideBar';
@@ -8,14 +6,13 @@ import { InnerMainWrapper, Decoration } from './Home.styled';
 import ScrollToTopButton from '../../components/ScrollToTopButton';
 
 const Home = () => {
-    const [selectedCharId, setSelectedCharId] = useState<number | null>(null);
   return (
     <InnerMainWrapper>
       <RandomChar />
-      <CharList onSetSelectedCharId={setSelectedCharId} selectedCharId={selectedCharId} />
-      <SideBar selectedCharId={selectedCharId} />
+      <CharList />
+      <SideBar />
       <Decoration src={decoration} alt='vision' />
-      <ScrollToTopButton/>
+      <ScrollToTopButton />
     </InnerMainWrapper>
   );
 };

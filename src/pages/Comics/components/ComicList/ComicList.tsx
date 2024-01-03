@@ -3,18 +3,27 @@ import { Typography, CircularProgress } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import ComicListView from './components/ComicListView';
-import { Status, IComic } from '../../../../types';
+import { Status } from '../../../../types';
 import MarvelService from '../../../../services/marvel';
+import { useGlobalContext } from '../../../../hooks';
 
 const ComicsList = () => {
-  const [comicList, setComicList] = useState<IComic[]>([]);
   const [status, setStatus] = useState<Status>(Status.IDLE);
   const [error, setError] = useState<string>('');
-  const [page, setPage] = useState<number>(1);
-  const [canLoadMore, setCanLoadMore] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const marvelService = useMemo(() => new MarvelService(), []);
+  const {
+    comicList,
+    setComicList,
+    comicsPage,
+    setComicsPage,
+    canLoadMoreComics: canLoadMore,
+    setCanLoadMoreComics: setCanLoadMore,
+  } = useGlobalContext();
 
   useEffect(() => {
+    if (comicList.length > 0) return;
+
     setStatus(Status.PENDING);
     marvelService
       .getAllComics()
@@ -27,36 +36,47 @@ const ComicsList = () => {
         setError(error);
         setStatus(Status.REJECTED);
       });
-  }, [marvelService]);
+  }, [comicList.length, marvelService, setCanLoadMore, setComicList]);
 
   useEffect(() => {
-    if (page === 1) return;
+    if (comicsPage === 1 || currentPage !== comicsPage) return;
 
     marvelService
-      .getAllComics(page)
+      .getAllComics(comicsPage)
       .then(({ items: comics, canLoadMore }) => {
         setComicList(prevComicList => [...prevComicList, ...comics]);
         setCanLoadMore(canLoadMore);
       })
       .catch(setError);
-  }, [marvelService, page]);
+  }, [marvelService, comicsPage, setComicList, setCanLoadMore, currentPage]);
+
+  const loadMore = () => {
+    setComicsPage(prevPage => {
+      setCurrentPage(prevPage + 1);
+      return prevPage + 1;
+    });
+  };
 
   switch (status) {
     case Status.PENDING:
       return <CircularProgress sx={{ margin: '0 auto' }} />;
 
     case Status.RESOLVED:
-      return (
-        <InfiniteScroll
-          dataLength={comicList.length}
-          next={() => setPage(page => page + 1)}
-          hasMore={canLoadMore}
-          loader={<CircularProgress sx={{ margin: '0 auto', display: 'block' }} />}
-          style={{ overflow: 'visible' }}
-        >
-          <ComicListView comicList={comicList} />
-        </InfiniteScroll>
-      );
+    case Status.IDLE:
+      if (comicList.length > 0) {
+        return (
+          <InfiniteScroll
+            dataLength={comicList.length}
+            next={loadMore}
+            hasMore={canLoadMore}
+            loader={<CircularProgress sx={{ margin: '0 auto', display: 'block' }} />}
+            style={{ overflow: 'visible' }}
+          >
+            <ComicListView comicList={comicList} />
+          </InfiniteScroll>
+        );
+      }
+      break;
 
     case Status.REJECTED:
       return (

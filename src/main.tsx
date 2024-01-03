@@ -4,6 +4,7 @@ import { ThemeProvider, Global } from '@emotion/react';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { BrowserRouter } from 'react-router-dom';
 
+import ContextProvider from './context/Provider';
 import App from './app';
 import { theme, globalStyles, muiTheme } from './styles';
 
@@ -12,7 +13,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <MuiThemeProvider theme={muiTheme}>
-          <App />
+          <ContextProvider>
+            <App />
+          </ContextProvider>
         </MuiThemeProvider>
         <Global styles={globalStyles} />
       </ThemeProvider>
