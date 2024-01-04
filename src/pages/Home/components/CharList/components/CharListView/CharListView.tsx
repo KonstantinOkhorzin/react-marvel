@@ -26,13 +26,7 @@ const CharListView: FC<Props> = ({
       <List>
         {charList.map(({ id, name, thumbnail }) => (
           <Item key={id} onClick={() => onSetSelectedCharId(id)} selected={selectedCharId === id}>
-            <Poster
-              src={thumbnail}
-              alt=''
-              isDefaultImage={
-                thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
-              }
-            />
+            <Poster src={thumbnail} alt='' path={thumbnail} />
             <Name>{name}</Name>
           </Item>
         ))}

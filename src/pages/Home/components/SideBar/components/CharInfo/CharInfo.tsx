@@ -18,11 +18,9 @@ const CharInfo: FC<Props> = ({
     <>
       <Header>
         <Poster
-          isDefaultImage={
-            thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
-          }
           src={thumbnail}
           alt={name}
+          path={thumbnail}
         />
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <Typography variant='h3' component='h2' sx={{ textTransform: 'uppercase' }}>

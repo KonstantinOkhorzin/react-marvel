@@ -30,13 +30,20 @@ export const Item = styled.li<ItemProps>`
 `;
 
 interface PosterProps {
-  isDefaultImage: boolean;
+  path: string;
 }
+
+const defaultImages: string[] = [
+  'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif',
+  'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg',
+];
+
+const isDefaultImage = (path: string, images: string[]): boolean => images.includes(path);
 
 export const Poster = styled.img<PosterProps>`
   height: 200px;
   margin: 0 auto;
-  object-fit: ${({ isDefaultImage }) => (isDefaultImage ? 'unset' : 'cover')};
+  object-fit: ${({ path }) => (isDefaultImage(path, defaultImages) ? 'unset' : 'cover')};
 `;
 
 export const Name = styled.h3`

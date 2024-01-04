@@ -11,13 +11,7 @@ interface Props {
 const RandomCharView: FC<Props> = ({ char: { name, description, thumbnail, homepage, wiki } }) => {
   return (
     <Wrapper>
-      <Poster
-        isDefaultImage={
-          thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
-        }
-        src={thumbnail}
-        alt=''
-      />
+      <Poster path={thumbnail} src={thumbnail} alt='' />
       <Info>
         <Typography variant='h3' component='h2' sx={{ textTransform: 'uppercase' }}>
           {name}
