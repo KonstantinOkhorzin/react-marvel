@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import { Button } from '@mui/material';
 
-import { Container, List, Item, Poster, Name } from './CharListView.styled';
+import { Container, List } from './CharListView.styled';
 import { ICharacter } from '../../../../../../types';
+import CharCard from './components/CharCard';
 
 interface Props {
   charList: ICharacter[];
@@ -24,11 +25,13 @@ const CharListView: FC<Props> = ({
   return (
     <Container>
       <List>
-        {charList.map(({ id, name, thumbnail }) => (
-          <Item key={id} onClick={() => onSetSelectedCharId(id)} selected={selectedCharId === id}>
-            <Poster src={thumbnail} alt='' path={thumbnail} />
-            <Name>{name}</Name>
-          </Item>
+        {charList.map(char => (
+          <CharCard
+            key={char.id}
+            char={char}
+            onSetSelectedCharId={onSetSelectedCharId}
+            selectedCharId={selectedCharId}
+          />
         ))}
       </List>
       {canLoadMore && (
