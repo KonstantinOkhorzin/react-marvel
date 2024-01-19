@@ -1,35 +1,24 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { Typography, CircularProgress } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import SubLayout from '../../components/SubLayout';
 import DetailsChar from './components/DetailsChar';
-
-import MarvelService from '../../services/marvel';
-import { Status, ICharacter } from '../../types';
+import { useAppDispatch } from '../../hooks';
+import { Status } from '../../types';
+import { selectSingleCharacter, fetchCharacterById } from '../../redux/singleCharacter';
 
 const SingleChar = () => {
   const { charId } = useParams();
-  const [char, setChar] = useState<ICharacter | null>(null);
-  const [status, setStatus] = useState<Status>(Status.IDLE);
-  const [error, setError] = useState<string>('');
-  const marvelService = useMemo(() => new MarvelService(), []);
+  const dispatch = useAppDispatch();
+  const { char, status, error } = useSelector(selectSingleCharacter);
 
   useEffect(() => {
-    if (!charId) return;
+    if (!charId || (char && char.id === Number(charId))) return;
 
-    setStatus(Status.PENDING);
-    marvelService
-      .getCharacterById(charId)
-      .then(char => {
-        setChar(char);
-        setStatus(Status.RESOLVED);
-      })
-      .catch(error => {
-        setError(error);
-        setStatus(Status.REJECTED);
-      });
-  }, [charId, marvelService]);
+    dispatch(fetchCharacterById(charId));
+  }, [char, charId, dispatch]);
 
   return (
     <SubLayout>

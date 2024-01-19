@@ -1,64 +1,38 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { Typography, CircularProgress } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 import { Status } from '../../../../types';
 import CharListView from './components/CharListView';
-import MarvelService from '../../../../services/marvel';
-import { useGlobalContext } from '../../../../hooks';
+import { useAppDispatch } from '../../../../hooks';
+import {
+  fetchCharacters,
+  fetchMoreCharacters,
+  setPage,
+  selectCharacters,
+} from '../../../../redux/characters';
 
 const CharList = () => {
-  const [status, setStatus] = useState<Status>(Status.IDLE);
-  const [error, setError] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
-  const marvelService = useMemo(() => new MarvelService(), []);
-  const {
-    charList,
-    setCharList,
-    charPage,
-    setCharPage,
-    canLoadMoreCharacters: canLoadMore,
-    setCanLoadMoreCharacters: setCanLoadMore,
-    selectedCharId,
-    setSelectedCharId,
-  } = useGlobalContext();
+  const dispatch = useAppDispatch();
+  const { charList, page, status, error, isLoadingMore, canLoadMore } =
+    useSelector(selectCharacters);
 
   useEffect(() => {
     if (charList.length > 0) return;
 
-    setStatus(Status.PENDING);
-    marvelService
-      .getAllCharacters()
-      .then(({ items: characters, canLoadMore }) => {
-        setCharList(characters);
-        setCanLoadMore(canLoadMore);
-        setStatus(Status.RESOLVED);
-      })
-      .catch(error => {
-        setError(error);
-        setStatus(Status.REJECTED);
-      });
-  }, [charList.length, marvelService, setCanLoadMore, setCharList]);
+    dispatch(fetchCharacters(page));
+  }, [charList.length, dispatch, page]);
 
   useEffect(() => {
-    if (charPage === 1 || currentPage !== charPage) return;
+    if (page === 1 || currentPage !== page) return;
 
-    setIsLoadingMore(true);
-    marvelService
-      .getAllCharacters(charPage)
-      .then(({ items: characters, canLoadMore }) => {
-        setCharList(prevCharList => [...prevCharList, ...characters]);
-        setCanLoadMore(canLoadMore);
-      })
-      .catch(setError)
-      .finally(() => setIsLoadingMore(false));
-  }, [marvelService, charPage, setCharList, currentPage, setCanLoadMore]);
+    dispatch(fetchMoreCharacters(page));
+  }, [currentPage, dispatch, page]);
 
   const loadMore = () => {
-    setCharPage(prevPage => {
-      setCurrentPage(prevPage + 1);
-      return prevPage + 1;
-    });
+    setCurrentPage(page + 1);
+    dispatch(setPage(page + 1));
   };
 
   switch (status) {
@@ -71,8 +45,6 @@ const CharList = () => {
         return (
           <CharListView
             charList={charList}
-            onSetSelectedCharId={setSelectedCharId}
-            selectedCharId={selectedCharId}
             onLoadMore={loadMore}
             isLoadingMore={isLoadingMore}
             canLoadMore={canLoadMore}

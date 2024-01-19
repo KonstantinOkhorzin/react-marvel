@@ -1,40 +1,24 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { Typography, CircularProgress } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 import CharInfo from './components/CharInfo';
 import SearchForm from './components/SearchForm';
 import Skeleton from './components/Skeleton';
 import { Wrapper, BlockWrapper } from './SideBar.styled';
-
-import MarvelService from '../../../../services/marvel';
+import { useAppDispatch } from '../../../../hooks';
 import { Status } from '../../../../types';
-import { useGlobalContext } from '../../../../hooks';
+import { selectCharacterDetails, fetchCharacterById } from '../../../../redux/characterDetails';
 
 const SideBar = () => {
-  const [status, setStatus] = useState<Status>(Status.IDLE);
-  const [error, setError] = useState<string>('');
-  // const [currentId, setCurrentId] = useState<number | null>(null);
-  const marvelService = useMemo(() => new MarvelService(), []);
-  const { selectedCharId, selectedChar, setSelectedChar } = useGlobalContext();
+  const dispatch = useAppDispatch();
+  const { selectedChar, selectedCharId, status, error } = useSelector(selectCharacterDetails);
 
   useEffect(() => {
-    if (selectedCharId === null) return;
+    if (selectedCharId === null || (selectedChar && selectedChar.id === selectedCharId)) return;
 
-    if (selectedChar && selectedChar.id === selectedCharId) return;
-      
-      setStatus(Status.PENDING);
-    marvelService
-      .getCharacterById(selectedCharId)
-      .then(char => {
-        setSelectedChar(char);
-        setStatus(Status.RESOLVED);
-        // setCurrentId(selectedCharId);
-      })
-      .catch(error => {
-        setError(error);
-        setStatus(Status.REJECTED);
-      });
-  }, [marvelService, selectedChar, selectedCharId, setSelectedChar]);
+    dispatch(fetchCharacterById(String(selectedCharId)));
+  }, [dispatch, selectedChar, selectedCharId]);
 
   return (
     <Wrapper>

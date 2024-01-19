@@ -7,8 +7,6 @@ import CharCard from './components/CharCard';
 
 interface Props {
   charList: ICharacter[];
-  onSetSelectedCharId: (id: number) => void;
-  selectedCharId: number | null;
   onLoadMore: () => void;
   isLoadingMore: boolean;
   canLoadMore: boolean;
@@ -16,8 +14,6 @@ interface Props {
 
 const CharListView: FC<Props> = ({
   charList,
-  onSetSelectedCharId,
-  selectedCharId,
   onLoadMore,
   isLoadingMore,
   canLoadMore,
@@ -29,8 +25,6 @@ const CharListView: FC<Props> = ({
           <CharCard
             key={char.id}
             char={char}
-            onSetSelectedCharId={onSetSelectedCharId}
-            selectedCharId={selectedCharId}
           />
         ))}
       </List>

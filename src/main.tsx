@@ -3,19 +3,20 @@ import ReactDOM from 'react-dom/client';
 import { ThemeProvider, Global } from '@emotion/react';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
-import ContextProvider from './context/Provider';
 import App from './app';
 import { theme, globalStyles, muiTheme } from './styles';
+import store from './redux/store';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <MuiThemeProvider theme={muiTheme}>
-          <ContextProvider>
+          <Provider store={store}>
             <App />
-          </ContextProvider>
+          </Provider>
         </MuiThemeProvider>
         <Global styles={globalStyles} />
       </ThemeProvider>

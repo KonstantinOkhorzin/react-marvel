@@ -1,3 +1,4 @@
 import useGlobalContext from './useGlobalContext';
+import useAppDispatch from './useAppDispatch';
 
-export { useGlobalContext };
+export { useGlobalContext, useAppDispatch };

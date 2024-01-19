@@ -1,60 +1,33 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { Typography, CircularProgress } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useSelector } from 'react-redux';
 
 import ComicListView from './components/ComicListView';
 import { Status } from '../../../../types';
-import MarvelService from '../../../../services/marvel';
-import { useGlobalContext } from '../../../../hooks';
+import { useAppDispatch } from '../../../../hooks';
+import { selectComics, fetchComics, fetchMoreComics, setPage } from '../../../../redux/comics';
 
 const ComicsList = () => {
-  const [status, setStatus] = useState<Status>(Status.IDLE);
-  const [error, setError] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const marvelService = useMemo(() => new MarvelService(), []);
-  const {
-    comicList,
-    setComicList,
-    comicsPage,
-    setComicsPage,
-    canLoadMoreComics: canLoadMore,
-    setCanLoadMoreComics: setCanLoadMore,
-  } = useGlobalContext();
+  const dispatch = useAppDispatch();
+  const { comicList, page, status, error, canLoadMore } = useSelector(selectComics);
 
   useEffect(() => {
     if (comicList.length > 0) return;
 
-    setStatus(Status.PENDING);
-    marvelService
-      .getAllComics()
-      .then(({ items: comics, canLoadMore }) => {
-        setComicList(comics);
-        setCanLoadMore(canLoadMore);
-        setStatus(Status.RESOLVED);
-      })
-      .catch(error => {
-        setError(error);
-        setStatus(Status.REJECTED);
-      });
-  }, [comicList.length, marvelService, setCanLoadMore, setComicList]);
+    dispatch(fetchComics(page));
+  }, [comicList.length, dispatch, page]);
 
   useEffect(() => {
-    if (comicsPage === 1 || currentPage !== comicsPage) return;
+    if (page === 1 || currentPage !== page) return;
 
-    marvelService
-      .getAllComics(comicsPage)
-      .then(({ items: comics, canLoadMore }) => {
-        setComicList(prevComicList => [...prevComicList, ...comics]);
-        setCanLoadMore(canLoadMore);
-      })
-      .catch(setError);
-  }, [marvelService, comicsPage, setComicList, setCanLoadMore, currentPage]);
+    dispatch(fetchMoreComics(page));
+  }, [currentPage, dispatch, page]);
 
   const loadMore = () => {
-    setComicsPage(prevPage => {
-      setCurrentPage(prevPage + 1);
-      return prevPage + 1;
-    });
+    setCurrentPage(page + 1);
+    dispatch(setPage(page + 1));
   };
 
   switch (status) {

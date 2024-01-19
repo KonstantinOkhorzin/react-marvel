@@ -1,35 +1,24 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { Typography, CircularProgress } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import SubLayout from '../../components/SubLayout';
 import DetailsComic from './components/DetailsComic';
-
-import MarvelService from '../../services/marvel';
-import { Status, IComic } from '../../types';
+import { useAppDispatch } from '../../hooks';
+import { Status } from '../../types';
+import { selectSingleComic, fetchComicById } from '../../redux/singleComic';
 
 const SingleComic = () => {
   const { comicId } = useParams();
-  const [comic, setComic] = useState<IComic | null>(null);
-  const [status, setStatus] = useState<Status>(Status.IDLE);
-  const [error, setError] = useState<string>('');
-  const marvelService = useMemo(() => new MarvelService(), []);
+  const dispatch = useAppDispatch();
+  const { comic, status, error } = useSelector(selectSingleComic);
 
   useEffect(() => {
-    if (!comicId) return;
+    if (!comicId || (comic && comic.id === Number(comicId))) return;
 
-    setStatus(Status.PENDING);
-    marvelService
-      .getComicById(comicId)
-      .then(comic => {
-        setComic(comic);
-        setStatus(Status.RESOLVED);
-      })
-      .catch(error => {
-        setError(error);
-        setStatus(Status.REJECTED);
-      });
-  }, [comicId, marvelService]);
+    dispatch(fetchComicById(comicId));
+  }, [comic, comicId, dispatch]);
 
   return (
     <SubLayout>
