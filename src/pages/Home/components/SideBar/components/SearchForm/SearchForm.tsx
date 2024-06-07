@@ -1,11 +1,11 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { Formik, Field, ErrorMessage, FormikHelpers } from 'formik';
 import { Typography, Button, TextField } from '@mui/material';
 import { object, string } from 'yup';
 import { Link } from 'react-router-dom';
 
 import { StyledForm, FormError, SuccessResult, FailuresMessage } from './SearchForm.styled';
-import MarvelService from '../../../../../../services/marvel';
+import marvelService from '../../../../../../services/marvel';
 import { ICharacter } from '../../../../../../types';
 
 interface Values {
@@ -21,7 +21,6 @@ const SearchForm = () => {
   const [searchCharList, setSearchCharList] = useState<ICharacter[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const marvelService = useMemo(() => new MarvelService(), []);
 
   const onFormSubmit = (values: Values, actions: FormikHelpers<Values>) => {
     setSearchName(values.searchName);
@@ -39,7 +38,7 @@ const SearchForm = () => {
       })
       .catch(setError)
       .finally(() => setLoading(false));
-  }, [marvelService, searchName]);
+  }, [searchName]);
 
   return (
     <div>

@@ -2,7 +2,7 @@ import { ServerCharactersData, CharacterResponse } from './types/characters';
 import { ServerComicsData, ComicResponse } from './types/comics';
 import { ICharacter, IComic, DataResponse } from '../../types';
 
-export default class MarvelService {
+class MarvelService {
   private apiKey: string = import.meta.env.VITE_MARVEL_KEY;
   private baseUrl: string = 'https://gateway.marvel.com:443/v1/public/';
   private defaultCharactersOffset: number = 210;
@@ -112,3 +112,7 @@ export default class MarvelService {
     return response.data.results.map(this.transformCharacter);
   };
 }
+
+const marvelService = new MarvelService();
+
+export default marvelService;

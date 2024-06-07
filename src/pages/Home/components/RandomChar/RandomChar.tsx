@@ -1,11 +1,11 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Typography, Button, CircularProgress } from '@mui/material';
 
 import { Wrapper, DynamicBlock, StaticBlock } from './RandomChar.styled';
 import RandomCharView from './components/RandomCharView';
 import ErrorView from './components/ErrorView';
 import { ICharacter, Status } from '../../../../types';
-import MarvelService from '../../../../services/marvel';
+import marvelService from '../../../../services/marvel';
 
 const MIN_ID = 1011000;
 const MAX_ID = 1011400;
@@ -17,7 +17,6 @@ const RandomChar = () => {
   const [char, setChar] = useState<ICharacter | null>(null);
   const [status, setStatus] = useState<Status>(Status.IDLE);
   const [randomId, setRandomId] = useState<number>(generateRandomId);
-  const marvelService = useMemo(() => new MarvelService(), []);
 
   useEffect(() => {
     setStatus(Status.PENDING);
@@ -36,7 +35,7 @@ const RandomChar = () => {
     return () => {
       clearInterval(timerId);
     };
-  }, [marvelService, randomId]);
+  }, [randomId]);
 
   return (
     <Wrapper>

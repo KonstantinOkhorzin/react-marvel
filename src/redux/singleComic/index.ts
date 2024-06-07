@@ -1,7 +1,7 @@
 import { asyncThunkCreator, buildCreateSlice } from '@reduxjs/toolkit';
 
 import { IComic, Status } from '../../types';
-import MarvelService from '../../services/marvel';
+import marvelService from '../../services/marvel';
 
 interface InitialState {
   comic: IComic | null;
@@ -15,7 +15,7 @@ const initialState: InitialState = {
   error: null,
 };
 
-const { getComicById } = new MarvelService();
+const { getComicById } = marvelService;
 
 const createSlice = buildCreateSlice({
   creators: { asyncThunk: asyncThunkCreator },
