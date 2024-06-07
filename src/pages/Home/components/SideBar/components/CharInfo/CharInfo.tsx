@@ -4,6 +4,7 @@ import { useLocation, Link } from 'react-router-dom';
 
 import { Header, Poster, ButtonGroup, Description, ComicList } from './CharInfo.styled';
 import { ICharacter } from '../../../../../../types';
+import { truncateDescription } from '../../../../../../helpers';
 
 interface Props {
   char: ICharacter;
@@ -17,11 +18,7 @@ const CharInfo: FC<Props> = ({
   return (
     <>
       <Header>
-        <Poster
-          src={thumbnail}
-          alt={name}
-          path={thumbnail}
-        />
+        <Poster src={thumbnail} alt={name} path={thumbnail} />
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <Typography variant='h3' component='h2' sx={{ textTransform: 'uppercase' }}>
             {name}
@@ -36,7 +33,7 @@ const CharInfo: FC<Props> = ({
           </ButtonGroup>
         </Box>
       </Header>
-      <Description>{description}</Description>
+      <Description>{truncateDescription(description)}</Description>
       {comics.length ? (
         <>
           <Typography variant='h4' component='h3' mt='10px'>
