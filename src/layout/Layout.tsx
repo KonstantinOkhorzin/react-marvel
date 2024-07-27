@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 
 import { AppWrapper } from './Layout.styled';
@@ -11,6 +11,7 @@ const Layout = () => {
       <AppHeader />
       <Suspense fallback={<CircularProgress sx={{ margin: '0 auto' }} />}>
         <Outlet />
+        <ScrollRestoration getKey={location => location.pathname} />
       </Suspense>
     </AppWrapper>
   );
