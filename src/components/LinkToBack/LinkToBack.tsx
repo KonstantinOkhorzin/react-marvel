@@ -12,6 +12,7 @@ const LinkToBack: FC<Props> = ({ children, to }) => {
     <Button
       component={Link}
       to={to}
+      preventScrollReset={true}
       sx={{
         width: 'auto',
         fontWeight: 700,
