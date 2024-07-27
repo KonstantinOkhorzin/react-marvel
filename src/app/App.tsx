@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import Layout from '../layout';
 import Home from '../pages/Home';
@@ -10,17 +10,36 @@ const SingleChar = lazy(() => import('../pages/SingleChar'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 function App() {
-  return (
-    <Routes >
-      <Route path='/' element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path='comics' element={<Comics />} />
-        <Route path='comics/:comicId' element={<SingleComic />} />
-        <Route path='characters/:charId' element={<SingleChar />} />
-        <Route path='*' element={<NotFound />} />
-      </Route>
-    </Routes>
-  );
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        {
+          index: true,
+          element: <Home />,
+        },
+        {
+          path: 'comics',
+          element: <Comics />,
+        },
+        {
+          path: 'comics/:comicId',
+          element: <SingleComic />,
+        },
+        {
+          path: 'characters/:charId',
+          element: <SingleChar />,
+        },
+        {
+          path: '*',
+          element: <NotFound />,
+        },
+      ],
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;
