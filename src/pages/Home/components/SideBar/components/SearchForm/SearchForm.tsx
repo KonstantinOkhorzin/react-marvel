@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { StyledForm, FormError, SuccessResult, FailuresMessage } from './SearchForm.styled';
 import marvelService from '../../../../../../services/marvel';
 import { ICharacter } from '../../../../../../types';
+import LoadingButton from '../../../../../../components/LoadingButton';
 
 interface Values {
   searchName: string;
@@ -58,9 +59,14 @@ const SearchForm = () => {
             name='searchName'
             placeholder='Enter name'
           />
-          <Button type='submit' variant='contained' disabled={loading}>
-            find
-          </Button>
+          {loading ? (
+            <LoadingButton />
+          ) : (
+            <Button type='submit' variant='contained'>
+              find
+            </Button>
+          )}
+
           <ErrorMessage name='searchName' component={FormError} />
         </StyledForm>
       </Formik>

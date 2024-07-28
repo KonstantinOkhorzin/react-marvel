@@ -4,6 +4,7 @@ import { Button } from '@mui/material';
 import { Container, List } from './CharListView.styled';
 import { ICharacter } from '../../../../../../types';
 import CharCard from './components/CharCard';
+import LoadingButton from '../../../../../../components/LoadingButton';
 
 interface Props {
   charList: ICharacter[];
@@ -12,32 +13,22 @@ interface Props {
   canLoadMore: boolean;
 }
 
-const CharListView: FC<Props> = ({
-  charList,
-  onLoadMore,
-  isLoadingMore,
-  canLoadMore,
-}) => {
+const CharListView: FC<Props> = ({ charList, onLoadMore, isLoadingMore, canLoadMore }) => {
   return (
     <Container>
       <List>
         {charList.map(char => (
-          <CharCard
-            key={char.id}
-            char={char}
-          />
+          <CharCard key={char.id} char={char} />
         ))}
       </List>
-      {canLoadMore && (
-        <Button
-          onClick={onLoadMore}
-          disabled={isLoadingMore}
-          variant='contained'
-          sx={{ width: '170px' }}
-        >
-          {isLoadingMore ? 'loading...' : 'load more'}
-        </Button>
-      )}
+      {canLoadMore &&
+        (isLoadingMore ? (
+          <LoadingButton />
+        ) : (
+          <Button onClick={onLoadMore} variant='contained' sx={{ width: '170px' }}>
+            load more
+          </Button>
+        ))}
     </Container>
   );
 };
