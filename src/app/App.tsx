@@ -31,11 +31,8 @@ function App() {
           path: 'characters/:charId',
           element: <SingleChar />,
         },
-        {
-          path: '*',
-          element: <NotFound />,
-        },
       ],
+      errorElement: <NotFound />
     },
   ]);
 
