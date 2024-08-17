@@ -10,13 +10,13 @@ import store from './redux/store';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <MuiThemeProvider theme={muiTheme}>
+    <MuiThemeProvider theme={muiTheme}>
+      <ThemeProvider theme={theme}>
         <Provider store={store}>
           <App />
         </Provider>
-      </MuiThemeProvider>
-      <Global styles={globalStyles} />
-    </ThemeProvider>
+        <Global styles={globalStyles} />
+      </ThemeProvider>
+    </MuiThemeProvider>
   </React.StrictMode>
 );
