@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 
 export const HeaderWrapper = styled.header`
   display: flex;
+  flex-wrap: wrap;
+  gap: 20px 50px;
   justify-content: space-between;
   color: ${({ theme }) => theme.colors.text};
 `;
@@ -16,6 +18,7 @@ export const Title = styled.h1`
 `;
 
 export const NavList = styled.nav`
+  margin-left: auto;
   display: flex;
   gap: 8px;
   font-weight: ${({ theme }) => theme.fontWeights.heading};
