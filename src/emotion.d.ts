@@ -31,5 +31,11 @@ declare module '@emotion/react' {
       transform: string;
       color: string;
     };
+
+    breakpoints: {
+      mobile: string;
+      tablet: string;
+      laptop: string;
+    };
   }
 }
