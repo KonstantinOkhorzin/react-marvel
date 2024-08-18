@@ -13,8 +13,12 @@ export const Wrapper = styled(Link)`
 `;
 
 export const Poster = styled.img`
-  height: 346px;
+  min-height: 346px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.laptop}) {
+    min-height: auto;
+  }
 `;
 
 export const Title = styled.h3`
