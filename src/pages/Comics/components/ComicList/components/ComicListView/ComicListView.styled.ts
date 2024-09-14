@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 export const List = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   justify-content: center;
   gap: 55px 66px;
 

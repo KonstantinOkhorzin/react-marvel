@@ -5,7 +5,7 @@ interface ItemProps {
 }
 
 export const Wrapper = styled.button<ItemProps>`
-  width: 200px;
+  width: 100%;
   min-height: 318px;
   display: flex;
   flex-direction: column;

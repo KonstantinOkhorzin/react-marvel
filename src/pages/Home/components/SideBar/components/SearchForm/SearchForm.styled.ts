@@ -4,7 +4,7 @@ import { Form } from 'formik';
 export const StyledForm = styled(Form)`
   margin-top: 15px;
   display: grid;
-  grid-template-columns: 250px 101px;
+  grid-template-columns: 1fr auto;
   grid-template-rows: 38px;
   column-gap: 24px;
   row-gap: 10px;
@@ -25,7 +25,7 @@ export const SuccessResult = styled.ul`
   li {
     display: grid;
     align-items: center;
-    grid-template-columns: 250px 101px;
+    grid-template-columns: 1fr auto;
     column-gap: 24px;
   }
   p {

@@ -34,7 +34,7 @@ const ScrollToTopButton = () => {
           sx={{
             position: 'fixed',
             bottom: '50px',
-            right: '50px',
+            right: '0px',
           }}
         >
           <KeyboardDoubleArrowUpSharpIcon
