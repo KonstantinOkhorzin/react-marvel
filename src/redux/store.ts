@@ -4,6 +4,7 @@ import characterDetails from './characterDetails';
 import characters from './characters';
 import singleCharacter from './singleCharacter';
 import comicsApi from './comics/api';
+import comicsSlice from './comics/slice';
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     characters,
     singleCharacter,
     [comicsApi.reducerPath]: comicsApi.reducer,
+    comicsSlice,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(comicsApi.middleware),
 });
