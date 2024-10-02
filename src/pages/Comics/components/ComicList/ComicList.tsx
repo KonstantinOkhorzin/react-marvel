@@ -1,66 +1,54 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Typography, CircularProgress } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useSelector } from 'react-redux';
 
 import ComicListView from './components/ComicListView';
-import { Status } from '../../../../types';
+import { useGetComicsQuery } from '../../../../redux/comics/api';
+import { handleError } from '../../../../helpers';
 import { useAppDispatch } from '../../../../hooks';
-import { selectComics, fetchComics, fetchMoreComics, setPage } from '../../../../redux/comics';
+import { selectComics, setOffset, setData } from '../../../../redux/comics/slice';
+
+const comicsLimit = Number(import.meta.env.VITE_COMICS_LIMIT);
 
 const ComicsList = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const dispatch = useAppDispatch();
-  const { comicList, page, status, error, canLoadMore } = useSelector(selectComics);
+  const { comicList, offset, canLoadMore } = useSelector(selectComics);
+  const { data, error, isLoading } = useGetComicsQuery(offset);
 
   useEffect(() => {
-    if (comicList.length > 0) return;
+    if (!data) return;
 
-    dispatch(fetchComics(page));
-  }, [comicList.length, dispatch, page]);
-
-  useEffect(() => {
-    if (page === 1 || currentPage !== page) return;
-
-    dispatch(fetchMoreComics(page));
-  }, [currentPage, dispatch, page]);
+    dispatch(setData(data));
+  }, [data, dispatch]);
 
   const loadMore = () => {
-    setCurrentPage(page + 1);
-    dispatch(setPage(page + 1));
+    dispatch(setOffset(offset + comicsLimit));
   };
 
-  switch (status) {
-    case Status.PENDING:
-      return <CircularProgress sx={{ margin: '0 auto' }} />;
+  return (
+    <>
+      {isLoading && <CircularProgress sx={{ margin: '0 auto' }} />}
 
-    case Status.RESOLVED:
-    case Status.IDLE:
-      if (comicList.length > 0) {
-        return (
-          <InfiniteScroll
-            dataLength={comicList.length}
-            next={loadMore}
-            hasMore={canLoadMore}
-            loader={<CircularProgress sx={{ margin: '0 auto', display: 'block' }} />}
-            style={{ overflow: 'visible' }}
-          >
-            <ComicListView comicList={comicList} />
-          </InfiniteScroll>
-        );
-      }
-      break;
+      {comicList.length > 0 && (
+        <InfiniteScroll
+          dataLength={comicList.length}
+          next={loadMore}
+          hasMore={canLoadMore}
+          loader={<CircularProgress sx={{ margin: '0 auto', display: 'block' }} />}
+          style={{ overflow: 'visible' }}
+        >
+          <ComicListView comicList={comicList} />
+        </InfiniteScroll>
+      )}
 
-    case Status.REJECTED:
-      return (
+      {error && (
         <Typography variant='h3' component='p' color='error' align='center'>
-          {error}
+          {handleError(error)}
         </Typography>
-      );
-
-    default:
-      return null;
-  }
+      )}
+    </>
+  );
 };
 
 export default ComicsList;
