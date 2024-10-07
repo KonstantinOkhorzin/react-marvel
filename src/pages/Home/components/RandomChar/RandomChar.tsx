@@ -4,8 +4,7 @@ import { Typography, Button, CircularProgress } from '@mui/material';
 import { Wrapper, DynamicBlock, StaticBlock } from './RandomChar.styled';
 import RandomCharView from './components/RandomCharView';
 import ErrorView from './components/ErrorView';
-import { ICharacter, Status } from '../../../../types';
-import marvelService from '../../../../services/marvel';
+import { useGetCharacterByIdOrNameQuery } from '../../../../redux/characters/api';
 
 const MIN_ID = 1011000;
 const MAX_ID = 1011400;
@@ -14,22 +13,10 @@ const INTERVAL_TIME = 60000;
 const generateRandomId = () => Math.round(Math.random() * (MAX_ID - MIN_ID) + MIN_ID);
 
 const RandomChar = () => {
-  const [char, setChar] = useState<ICharacter | null>(null);
-  const [status, setStatus] = useState<Status>(Status.IDLE);
   const [randomId, setRandomId] = useState<number>(generateRandomId);
+  const { data: char, isFetching, isError } = useGetCharacterByIdOrNameQuery({ id: randomId });
 
   useEffect(() => {
-    setStatus(Status.PENDING);
-    marvelService
-      .getCharacterById(randomId)
-      .then(char => {
-        setChar(char);
-        setStatus(Status.RESOLVED);
-      })
-      .catch(() => {
-        setStatus(Status.REJECTED);
-      });
-
     const timerId = setInterval(generateRandomId, INTERVAL_TIME);
 
     return () => {
@@ -40,9 +27,11 @@ const RandomChar = () => {
   return (
     <Wrapper>
       <DynamicBlock>
-        {status === Status.PENDING && <CircularProgress />}
-        {char && status === Status.RESOLVED && <RandomCharView char={char} />}
-        {status === Status.REJECTED && <ErrorView />}
+        {isFetching && <CircularProgress />}
+
+        {char && !isFetching && <RandomCharView char={char} />}
+
+        {isError && <ErrorView />}
       </DynamicBlock>
       <StaticBlock>
         <Typography variant='h2' component='p' mb='33px'>
