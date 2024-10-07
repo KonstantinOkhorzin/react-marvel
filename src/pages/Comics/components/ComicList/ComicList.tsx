@@ -9,12 +9,17 @@ import { handleError } from '../../../../helpers';
 import { useAppDispatch } from '../../../../hooks';
 import { selectComics, setOffset, setData } from '../../../../redux/comics/slice';
 
-const comicsLimit = Number(import.meta.env.VITE_COMICS_LIMIT);
+const comicsLimit = Number(import.meta.env.VITE_COMICS_LIMIT) || 8;
+const defaultComicsOffset = Number(import.meta.env.VITE_DEFAULT_COMICS_OFFSET) || 100;
 
 const ComicsList = () => {
   const dispatch = useAppDispatch();
   const { comicList, offset, canLoadMore } = useSelector(selectComics);
-  const { data, error, isLoading } = useGetComicsQuery(offset);
+  const { data, error, isLoading } = useGetComicsQuery(offset, {
+    skip:
+      comicList.length > 0 &&
+      (offset === comicList.length + defaultComicsOffset - comicsLimit || !canLoadMore),
+  });
 
   useEffect(() => {
     if (!data) return;
@@ -28,7 +33,7 @@ const ComicsList = () => {
 
   return (
     <>
-      {isLoading && <CircularProgress sx={{ margin: '0 auto' }} />}
+      {isLoading && comicList.length === 0 && <CircularProgress sx={{ margin: '0 auto' }} />}
 
       {comicList.length > 0 && (
         <InfiniteScroll
