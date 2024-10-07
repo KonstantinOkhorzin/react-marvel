@@ -28,7 +28,7 @@ const RandomChar = () => {
       <DynamicBlock>
         {isFetching && <CircularProgress />}
 
-        {char && !isFetching && <RandomCharView char={char} />}
+        {char && !isFetching && !isError && <RandomCharView char={char} />}
 
         {isError && <ErrorView />}
       </DynamicBlock>
