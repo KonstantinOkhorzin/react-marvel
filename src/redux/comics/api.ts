@@ -6,7 +6,7 @@ import { transformComic, canLoadMore } from '../helpers';
 
 const apiKey: string = import.meta.env.VITE_MARVEL_KEY;
 const baseUrl: string = `${import.meta.env.VITE_MARVEL_URL}comics`;
-const comicsLimit: number = import.meta.env.VITE_COMICS_LIMIT;
+const comicsLimit: string = import.meta.env.VITE_COMICS_LIMIT ?? '8';
 
 const comicsApi = createApi({
   reducerPath: 'comicsApi',
