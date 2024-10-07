@@ -17,17 +17,12 @@ export const FormError = styled.p`
   line-height: ${({ theme }) => theme.lineHeights.heading};
 `;
 
-export const SuccessResult = styled.ul`
+export const SuccessResult = styled.div`
   margin-top: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  li {
-    display: grid;
-    align-items: center;
-    grid-template-columns: 1fr auto;
-    column-gap: 24px;
-  }
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr auto;
+  column-gap: 24px;
   p {
     color: ${({ theme }) => theme.colors.success};
     font-size: ${({ theme }) => theme.fontSizes.small};

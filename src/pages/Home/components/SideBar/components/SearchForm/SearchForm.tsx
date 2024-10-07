@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Formik, Field, ErrorMessage, FormikHelpers } from 'formik';
 import { Typography, Button, TextField } from '@mui/material';
 import { object, string } from 'yup';
 import { Link } from 'react-router-dom';
 
 import { StyledForm, FormError, SuccessResult, FailuresMessage } from './SearchForm.styled';
-import marvelService from '../../../../../../services/marvel';
-import { ICharacter } from '../../../../../../types';
 import LoadingButton from '../../../../../../components/LoadingButton';
+import { useGetCharacterByIdOrNameQuery } from '../../../../../../redux/characters/api';
+import { handleError } from '../../../../../../helpers';
 
 interface Values {
   searchName: string;
@@ -19,27 +19,17 @@ const validationSchema = object({
 
 const SearchForm = () => {
   const [searchName, setSearchName] = useState<string>('');
-  const [searchCharList, setSearchCharList] = useState<ICharacter[] | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: searchChar,
+    isFetching,
+    error,
+    isSuccess,
+  } = useGetCharacterByIdOrNameQuery({ name: searchName }, { skip: searchName === '' });
 
   const onFormSubmit = (values: Values, actions: FormikHelpers<Values>) => {
     setSearchName(values.searchName);
     actions.resetForm();
   };
-
-  useEffect(() => {
-    if (searchName === '') return;
-
-    setLoading(true);
-    marvelService
-      .getCharacterByName(searchName)
-      .then(CharList => {
-        setSearchCharList(CharList);
-      })
-      .catch(setError)
-      .finally(() => setLoading(false));
-  }, [searchName]);
 
   return (
     <div>
@@ -59,7 +49,7 @@ const SearchForm = () => {
             name='searchName'
             placeholder='Enter name'
           />
-          {loading ? (
+          {isFetching ? (
             <LoadingButton />
           ) : (
             <Button type='submit' variant='contained'>
@@ -71,27 +61,25 @@ const SearchForm = () => {
         </StyledForm>
       </Formik>
 
-      {searchCharList && searchCharList.length > 0 && (
+      {searchChar && (
         <SuccessResult>
-          {searchCharList.map(({ name, id }) => (
-            <li key={id}>
-              <p>There is! Visit {name} page?</p>
-              <Button
-                component={Link}
-                to={`/characters/${id}`}
-                variant='contained'
-                color='secondary'
-              >
-                TO PAGE
-              </Button>
-            </li>
-          ))}
+          <p>There is! Visit {searchChar.name} page?</p>
+          <Button
+            component={Link}
+            to={`/characters/${searchChar.id}`}
+            variant='contained'
+            color='secondary'
+          >
+            TO PAGE
+          </Button>
         </SuccessResult>
       )}
-      {searchCharList && searchCharList.length === 0 && (
-        <FailuresMessage>The character was not found. Check the name and try again</FailuresMessage>
+      {!searchChar && isSuccess && !isFetching && (
+        <FailuresMessage>
+          The "{searchName.toLocaleUpperCase()}" was not found. Check the name and try again
+        </FailuresMessage>
       )}
-      {error && <FailuresMessage>{error}</FailuresMessage>}
+      {error && <FailuresMessage>{handleError(error)}</FailuresMessage>}
     </div>
   );
 };
