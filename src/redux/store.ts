@@ -1,13 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import characterDetails from './characterDetails';
-import characters from './characters';
-import comics from './comics';
-import singleCharacter from './singleCharacter';
-import singleComic from './singleComic';
+import comicsApi from './comics/api';
+import comicsSlice from './comics/slice';
+import charactersApi from './characters/api';
+import charactersSlice from './characters/slice';
 
 const store = configureStore({
-  reducer: { characterDetails, characters, comics, singleCharacter, singleComic },
+  reducer: {
+    [comicsApi.reducerPath]: comicsApi.reducer,
+    [charactersApi.reducerPath]: charactersApi.reducer,
+    comics: comicsSlice,
+    characters: charactersSlice,
+  },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().concat(comicsApi.middleware, charactersApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

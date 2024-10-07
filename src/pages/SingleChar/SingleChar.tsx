@@ -1,34 +1,33 @@
-import { useEffect } from 'react';
 import { Typography, CircularProgress } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 import SubLayout from '../../components/SubLayout';
 import DetailsChar from './components/DetailsChar';
-import { useAppDispatch } from '../../hooks';
-import { Status } from '../../types';
-import { selectSingleCharacter, fetchCharacterById } from '../../redux/singleCharacter';
+import { useGetCharacterByIdOrNameQuery } from '../../redux/characters/api';
+import { handleError } from '../../helpers';
 
 const SingleChar = () => {
   const { charId } = useParams();
-  const dispatch = useAppDispatch();
-  const { char, status, error } = useSelector(selectSingleCharacter);
-
-  useEffect(() => {
-    if (!charId || (char && char.id === Number(charId))) return;
-
-    dispatch(fetchCharacterById(charId));
-  }, [char, charId, dispatch]);
+  const {
+    data: char,
+    error,
+    isFetching,
+  } = useGetCharacterByIdOrNameQuery(
+    { id: Number(charId) },
+    {
+      skip: charId === undefined,
+    }
+  );
 
   return (
     <SubLayout>
-      {status === Status.PENDING && (
-        <CircularProgress sx={{ margin: '0 auto', display: 'block' }} />
-      )}
-      {status === Status.RESOLVED && char && <DetailsChar char={char} />}
-      {status === Status.REJECTED && (
+      {isFetching && <CircularProgress sx={{ margin: '0 auto', display: 'block' }} />}
+
+      {char && <DetailsChar char={char} />}
+
+      {error && (
         <Typography variant='h1' component='p' color='error' align='center'>
-          {error}
+          {handleError(error)}
         </Typography>
       )}
     </SubLayout>
