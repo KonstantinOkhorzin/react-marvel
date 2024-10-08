@@ -1,27 +1,28 @@
-# React + TypeScript + Vite
+# Marvel Portal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Marvel Portal is a web application that provides access to Marvel characters and comics. It fetches data from the [Marvel API](https://developer.marvel.com) and allows users to explore lists of characters and comics, as well as individual entries by ID or name.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Marvel Characters & Comics**: Browse lists of characters and comics, with detailed pages for individual entries. In the comics section, users can click to view more information about each comic.
+  
+- **Character Search**: Search for characters by name on the characters page. Upon entering a valid name, users are redirected to the character's detailed page.
 
-## Expanding the ESLint configuration
+- **Load More Characters**: Load more characters by clicking the "Load More" button, which progressively fetches more characters from the API.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Infinite Scroll for Comics**: The comics section features infinite scroll, automatically loading more comics as users browse further down the page.
 
-- Configure the top-level `parserOptions` property like this:
+## Technologies Used
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+- **Vite**: For fast development and builds.
+- **React**: JavaScript library for UI components.
+- **TypeScript**: Statically-typed JavaScript for improved code quality.
+- **Redux Toolkit & RTK Query**: For efficient state management and API interactions.
+- **Emotion & MUI**: Modern CSS-in-JS and Material UI for styling.
+- **Formik & Yup**: For form handling and validation.
+- **React Router DOM**: For navigation and routing.
+- **React Infinite Scroll Component**: Seamless infinite scroll in the comics section.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Demo
+
+Check out the live demo: [Marvel Portal](https://marvel-portal.onrender.com).
