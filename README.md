@@ -1,6 +1,6 @@
 # Marvel Portal
 
-Marvel Portal is a web application that provides access to Marvel characters and comics. It fetches data from the [Marvel API](https://developer.marvel.com) and allows users to explore lists of characters and comics, as well as individual entries by ID or name.
+Marvel Portal is a web application that provides access to Marvel characters and comics. It fetches data from the <a href="https://developer.marvel.com" target="_blank">Marvel API</a> and allows users to explore lists of characters and comics, as well as individual entries by ID or name.
 
 ## Features
 
@@ -25,4 +25,4 @@ Marvel Portal is a web application that provides access to Marvel characters and
 
 ## Demo
 
-Check out the live demo: [Marvel Portal](https://marvel-portal.onrender.com).
+Check out the live demo: <a href="https://marvel-portal.onrender.com" target="_blank">Marvel Portal</a>.
