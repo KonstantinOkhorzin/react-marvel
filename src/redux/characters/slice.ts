@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { ICharacter, DataResponse } from '../../types';
-
-const defaultCharactersOffset = Number(import.meta.env.VITE_DEFAULT_CHARACTERS_OFFSET) || 210;
+import { DEFAULTS } from '../../constants';
 
 interface InitialState {
   charList: ICharacter[];
@@ -14,7 +13,7 @@ interface InitialState {
 
 const initialState: InitialState = {
   charList: [],
-  offset: defaultCharactersOffset,
+  offset: DEFAULTS.CHARACTERS_OFFSET,
   canLoadMore: false,
   selectedChar: null,
   selectedCharId: undefined,

@@ -3,10 +3,10 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { DataResponse, ICharacter } from '../../types';
 import { ServerCharactersData } from '../types/characters';
 import { transformCharacter, canLoadMore } from '../helpers';
+import { DEFAULTS } from '../../constants';
 
 const apiKey: string = import.meta.env.VITE_MARVEL_KEY;
 const baseUrl: string = `${import.meta.env.VITE_MARVEL_URL}characters`;
-const charactersLimit: string = import.meta.env.VITE_CHARACTERS_LIMIT ?? '9';
 
 interface ICharacterQuery {
   id?: number;
@@ -24,7 +24,7 @@ const charactersApi = createApi({
           canLoadMore: canLoadMore(response),
         };
       },
-      query: offset => `?limit=${charactersLimit}&offset=${offset}&apikey=${apiKey}`,
+      query: offset => `?limit=${DEFAULTS.CHARACTERS_LIMIT}&offset=${offset}&apikey=${apiKey}`,
     }),
 
     getCharacterByIdOrName: builder.query<ICharacter | null, ICharacterQuery | undefined>({

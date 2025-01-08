@@ -8,17 +8,16 @@ import { useGetComicsQuery } from '../../../../redux/comics/api';
 import { handleError } from '../../../../helpers';
 import { useAppDispatch } from '../../../../hooks';
 import { selectComics, setOffset, setData } from '../../../../redux/comics/slice';
-
-const comicsLimit = Number(import.meta.env.VITE_COMICS_LIMIT) || 8;
-const defaultComicsOffset = Number(import.meta.env.VITE_DEFAULT_COMICS_OFFSET) || 100;
+import { DEFAULTS } from '../../../../constants';
 
 const ComicsList = () => {
   const dispatch = useAppDispatch();
   const { comicList, offset, canLoadMore } = useSelector(selectComics);
+  const { COMICS_OFFSET, COMICS_LIMIT } = DEFAULTS;
   const { data, error, isLoading } = useGetComicsQuery(offset, {
     skip:
       comicList.length > 0 &&
-      (offset === comicList.length + defaultComicsOffset - comicsLimit || !canLoadMore),
+      (offset === comicList.length + COMICS_OFFSET - COMICS_LIMIT || !canLoadMore),
   });
 
   useEffect(() => {
@@ -28,7 +27,7 @@ const ComicsList = () => {
   }, [data, dispatch]);
 
   const loadMore = () => {
-    dispatch(setOffset(offset + comicsLimit));
+    dispatch(setOffset(offset + COMICS_LIMIT));
   };
 
   return (

@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+import { ROUTES } from '../constants';
 import Layout from '../layout';
 import Home from '../pages/Home';
 
@@ -12,7 +13,7 @@ const NotFound = lazy(() => import('../pages/NotFound'));
 function App() {
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: ROUTES.HOME,
       element: <Layout />,
       children: [
         {
@@ -20,15 +21,15 @@ function App() {
           element: <Home />,
         },
         {
-          path: 'comics',
+          path: ROUTES.COMICS,
           element: <Comics />,
         },
         {
-          path: 'comics/:comicId',
+          path: ROUTES.SINGLE_COMIC,
           element: <SingleComic />,
         },
         {
-          path: 'characters/:charId',
+          path: ROUTES.SINGLE_CHAR,
           element: <SingleChar />,
         },
       ],

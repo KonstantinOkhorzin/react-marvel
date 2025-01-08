@@ -3,10 +3,10 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { DataResponse, IComic } from '../../types';
 import { ServerComicsData } from '../types/comics';
 import { transformComic, canLoadMore } from '../helpers';
+import { DEFAULTS } from '../../constants';
 
 const apiKey: string = import.meta.env.VITE_MARVEL_KEY;
 const baseUrl: string = `${import.meta.env.VITE_MARVEL_URL}comics`;
-const comicsLimit: string = import.meta.env.VITE_COMICS_LIMIT ?? '8';
 
 const comicsApi = createApi({
   reducerPath: 'comicsApi',
@@ -19,7 +19,7 @@ const comicsApi = createApi({
           canLoadMore: canLoadMore(response),
         };
       },
-      query: offset => `?limit=${comicsLimit}&offset=${offset}&apikey=${apiKey}`,
+      query: offset => `?limit=${DEFAULTS.COMICS_LIMIT}&offset=${offset}&apikey=${apiKey}`,
     }),
 
     getComicById: builder.query<IComic, string | undefined>({

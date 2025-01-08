@@ -5,6 +5,7 @@ import { useLocation, Link } from 'react-router-dom';
 import { Header, Poster, ButtonGroup, Description, ComicList } from './CharInfo.styled';
 import { ICharacter } from '../../../../../../types';
 import { truncateDescription } from '../../../../../../helpers';
+import { ROUTES } from '../../../../../../constants';
 
 interface Props {
   char: ICharacter;
@@ -46,7 +47,7 @@ const CharInfo: FC<Props> = ({
                 <Button
                   component={Link}
                   key={id}
-                  to={`/comics/${id}`}
+                  to={`/${ROUTES.COMICS}/${id}`}
                   state={{ from: location }}
                   sx={{
                     width: '100%',

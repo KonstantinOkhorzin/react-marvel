@@ -7,17 +7,16 @@ import { useAppDispatch } from '../../../../hooks';
 import { selectCharacters, setOffset, setData } from '../../../../redux/characters/slice';
 import { useGetCharactersQuery } from '../../../../redux/characters/api';
 import { handleError } from '../../../../helpers';
-
-const charactersLimit = Number(import.meta.env.VITE_CHARACTERS_LIMIT) || 9;
-const defaultCharactersOffset = Number(import.meta.env.VITE_DEFAULT_CHARACTERS_OFFSET) || 210;
+import { DEFAULTS } from '../../../../constants';
 
 const CharList = () => {
   const dispatch = useAppDispatch();
   const { charList, offset, canLoadMore } = useSelector(selectCharacters);
+  const { CHARACTERS_OFFSET, CHARACTERS_LIMIT } = DEFAULTS;
   const { data, error, isLoading, isFetching } = useGetCharactersQuery(offset, {
     skip:
       charList.length > 0 &&
-      (offset === charList.length + defaultCharactersOffset - charactersLimit || !canLoadMore),
+      (offset === charList.length + CHARACTERS_OFFSET - CHARACTERS_LIMIT || !canLoadMore),
   });
 
   useEffect(() => {
@@ -27,7 +26,7 @@ const CharList = () => {
   }, [data, dispatch]);
 
   const loadMore = () => {
-    dispatch(setOffset(offset + charactersLimit));
+    dispatch(setOffset(offset + CHARACTERS_LIMIT));
   };
 
   return (

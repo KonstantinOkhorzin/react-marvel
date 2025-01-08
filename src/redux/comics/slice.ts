@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { IComic, DataResponse } from '../../types';
-
-const defaultComicsOffset = Number(import.meta.env.VITE_DEFAULT_COMICS_OFFSET) || 100;
+import { DEFAULTS } from '../../constants';
 
 interface InitialState {
   comicList: IComic[];
@@ -12,7 +11,7 @@ interface InitialState {
 
 const initialState: InitialState = {
   comicList: [],
-  offset: defaultComicsOffset,
+  offset: DEFAULTS.COMICS_OFFSET,
   canLoadMore: false,
 };
 

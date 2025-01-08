@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { Container, Description, Price, Content } from './DetailsComic.styled';
 import LinkToBack from '../../../../components/LinkToBack';
 import { IComic } from '../../../../types';
+import { ROUTES } from '../../../../constants';
 
 interface Props {
   comic: IComic;
@@ -29,7 +30,7 @@ const DetailsComic: FC<Props> = ({
           <Price>{price}</Price>
         </Box>
       </Content>
-      <LinkToBack to={location.state?.from ?? '/comics'}>Back to all</LinkToBack>
+      <LinkToBack to={location.state?.from ?? `/${ROUTES.COMICS}`}>Back to all</LinkToBack>
     </Container>
   );
 };
